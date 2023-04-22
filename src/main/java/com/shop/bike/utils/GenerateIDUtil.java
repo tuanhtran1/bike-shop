@@ -34,4 +34,6 @@ public class GenerateIDUtil {
             str = "0" + str;
         return str;
     }
+	
+	public static String getProductCode(){return "P"+"_"+prefix+shortUniqueCode();}
 }
