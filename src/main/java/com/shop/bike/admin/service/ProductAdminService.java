@@ -3,6 +3,7 @@ package com.shop.bike.admin.service;
 import com.shop.bike.admin.dto.ProductAdminDTO;
 import com.shop.bike.admin.dto.ProductFilterDTO;
 import com.shop.bike.admin.vm.ProductAdminVM;
+import com.shop.bike.entity.Product;
 import com.shop.bike.service.ProductService;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -58,4 +59,6 @@ public interface ProductAdminService extends ProductService {
 	 * @author: tuanhtran1 (tu.tran@ecaraid.com)
 	**************************************************************/
 	Optional<ProductAdminVM> findOneByVendor(Long id);
+	
+	void setMinMaxPrice(Product product);
 }

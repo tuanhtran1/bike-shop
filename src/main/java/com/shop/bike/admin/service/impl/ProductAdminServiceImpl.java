@@ -28,6 +28,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.math.BigDecimal;
 import java.time.Instant;
 import java.util.Optional;
 import java.util.Set;
@@ -76,6 +77,7 @@ public class ProductAdminServiceImpl extends ProductServiceImpl implements Produ
 		log.debug("Request to get a Product : {}", productOpt.get());
 		return productOpt.map(productAdminVMMapper::toDto);
 	}
+	
 	
 	/*************************************************************
 	 *
@@ -166,6 +168,26 @@ public class ProductAdminServiceImpl extends ProductServiceImpl implements Produ
 		log.debug("Request to delete a Product : {}", product);
 		product.setProductStatus(ActionStatus.DELETED);
 		productAdminRepository.save(product);
+	}
+	
+	@Override
+	public void setMinMaxPrice(Product product) {
+		if(product.getTradingProducts() != null && !product.getTradingProducts().isEmpty()) {
+			BigDecimal minPrice, maxPrice;
+			minPrice = maxPrice = product.getTradingProducts().stream().findFirst()
+					.map(TradingProduct::getPrice)
+					.orElseThrow(() -> new BadRequestAlertException(ErrorEnum.TRADING_PRODUCT_IS_EMPTY));
+			Set<TradingProduct> tradingProductsRunning = product.getTradingProducts().stream()
+					.filter(tp -> tp.getStatus() == ActionStatus.ACTIVATED && tp.getApproveStatus() == ApproveStatus.APPROVED)
+					.collect(Collectors.toSet());
+			for (TradingProduct tp : tradingProductsRunning) {
+				if(tp.getPrice().compareTo(minPrice) < 0) minPrice = tp.getPrice();
+				if(tp.getPrice().compareTo(maxPrice) > 0) maxPrice = tp.getPrice();
+			}
+			product.setMinPrice(minPrice);
+			product.setMaxPrice(maxPrice);
+			productAdminRepository.save(product);
+		}
 	}
 	
 }
