@@ -12,6 +12,8 @@ import javax.validation.constraints.Size;
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.time.Instant;
+import java.util.HashSet;
+import java.util.Set;
 
 /**
  * A TradingProduct.
@@ -82,11 +84,15 @@ public class TradingProduct extends BaseEntity implements Serializable {
     @Column(name = "approve_status")
     private ApproveStatus approveStatus;
 
-    @Column(name = "quantity_min", nullable = false)
-    private Double quantityMin;
+//    @Column(name = "quantity_min", nullable = false)
+//    private Double quantityMin;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JsonIgnoreProperties(value = { "tradingProducts", "brand"}, allowSetters = true)
     private Product product;
+	
+	@OneToMany(mappedBy = "tradingProduct")
+	@JsonIgnoreProperties(value = { "tradingProduct" }, allowSetters = true)
+	private Set<ProductAttribute> attributes = new HashSet<>();
 
 }

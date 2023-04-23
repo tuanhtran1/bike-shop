@@ -20,7 +20,10 @@ public enum ErrorEnum {
 	PRODUCT_NOT_FOUND("Product", "NotFound","Product is not found" ),
 	CART_EXIST_PRODUCT("Cart","Exist" ,"Cart is exist product" ),
 	CART_NOT_FOUND("Cart","NotFound" ,"Cart is not found"),
-	BRAND_NOT_FOUND("Brand","NotFound" , "Brand is not found" );
+	BRAND_NOT_FOUND("Brand","NotFound" , "Brand is not found" ),
+	TRADING_PRODUCT_EXISTED("TradingProduct","Existed" ,"Trading product is existed" ),
+	TRADING_PRODUCT_IS_EMPTY("TradingProduct", "Empty", "Trading product is empty" ),
+	TRADING_PRODUCT_NOT_FOUND("TradingProduct","NotFound" , "Trading product is not found" );
 	
 	//add more...
 	private final String entityName;

@@ -7,6 +7,7 @@ import com.shop.bike.utils.JsonConverter;
 import com.shop.bike.vm.BrandVM;
 import lombok.Data;
 
+import java.math.BigDecimal;
 import java.time.Instant;
 
 @Data
@@ -42,6 +43,10 @@ public class ProductAdminVM {
 	private Instant createdDate;
 	
 	private Instant lastModifiedDate;
+	
+	private BigDecimal maxPrice;
+	
+	private BigDecimal minPrice;
 	
 	public void setImages(String images) {
 		this.images = images;
