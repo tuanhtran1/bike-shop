@@ -111,7 +111,18 @@ public class MyOrder extends BaseEntity implements Serializable {
 	private Address address;
 
     @OneToMany(mappedBy = "order")
+	@JsonIgnoreProperties(value = { "order" }, allowSetters = true)
     private Set<MyOrderDetails> orderDetails = new HashSet<>();
 
     // jhipster-needle-entity-add-field - JHipster will add fields here
+	
+	public void setOrderDetails(Set<MyOrderDetails> orderDetails) {
+		if (this.orderDetails != null) {
+			this.orderDetails.forEach(i -> i.setOrder(null));
+		}
+		if (orderDetails != null) {
+			orderDetails.forEach(i -> i.setOrder(this));
+		}
+		this.orderDetails = orderDetails;
+	}
 }
