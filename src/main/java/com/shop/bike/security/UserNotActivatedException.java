@@ -24,7 +24,8 @@ public class UserNotActivatedException extends AbstractThrowableProblem {
 	private final String errorKey;
 
 	public UserNotActivatedException() {
-		this(ErrorConstants.DEFAULT_TYPE, ErrorEnum.USER_NOT_ACTIVATED.getMessage(),
+		this(ErrorConstants.DEFAULT_TYPE,
+				ErrorEnum.USER_NOT_ACTIVATED.getMessage(),
 				ErrorEnum.USER_NOT_ACTIVATED.getEntityName(), ErrorEnum.USER_NOT_ACTIVATED.getErrorKey());
 	}
 

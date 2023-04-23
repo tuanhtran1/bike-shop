@@ -19,7 +19,8 @@ public enum ErrorEnum {
 	CATEGORY_NOT_FOUND("Category","NotFound" ,"Category is not found"),
 	PRODUCT_NOT_FOUND("Product", "NotFound","Product is not found" ),
 	CART_EXIST_PRODUCT("Cart","Exist" ,"Cart is exist product" ),
-	CART_NOT_FOUND("Cart","NotFound" ,"Cart is not found");
+	CART_NOT_FOUND("Cart","NotFound" ,"Cart is not found"),
+	BRAND_NOT_FOUND("Brand","NotFound" , "Brand is not found" );
 	
 	//add more...
 	private final String entityName;
