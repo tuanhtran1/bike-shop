@@ -24,7 +24,8 @@ public enum ErrorEnum {
 	TRADING_PRODUCT_EXISTED("TradingProduct","Existed" ,"Trading product is existed" ),
 	TRADING_PRODUCT_IS_EMPTY("TradingProduct", "Empty", "Trading product is empty" ),
 	TRADING_PRODUCT_NOT_FOUND("TradingProduct","NotFound" , "Trading product is not found" ),
-	STOCK_QUANTITY_NOT_ENOUGH("TradingProduct","NotEnough" , "Stock quantity trading is not enough");
+	STOCK_QUANTITY_NOT_ENOUGH("TradingProduct","NotEnough" , "Stock quantity trading is not enough"),
+	TYPE_NOT_SUPPORT("Media","NotSupported" ,"Media type is not supported" );
 	
 	//add more...
 	private final String entityName;

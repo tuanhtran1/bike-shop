@@ -1,37 +1,32 @@
-/**
- * 
- */
-package com.shop.bike.service.dto;
+package com.shop.bike.vm;
 
-import com.shop.bike.entity.enumeration.ActionStatus;
 import com.shop.bike.entity.enumeration.MediaType;
 import lombok.Data;
 
 import java.io.Serializable;
 import java.math.BigDecimal;
 
+/**
+ * A DTO for the {@link com.malu.base.media.domain.Media} entity.
+ */
 @Data
-public class MediaDTO implements Serializable{
-	
+public class MediaVM implements Serializable {
+
 	/**
 	 * 
 	 */
-	private static final long serialVersionUID = -1877786360018054664L;
-	
+	private static final long serialVersionUID = 4251085245487912235L;
+
 	private Long id;
-	
+
 	private String name;
-	
+
 	private String path;
-	
-	private ActionStatus status;
-	
+
 	private MediaType mediaType;
-	
-	private String extension;
-	
+
 	private String originalName;
-	
+
 	private BigDecimal fileSize;
-	
+
 }

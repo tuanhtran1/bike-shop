@@ -1,5 +1,8 @@
 package com.shop.bike.constant;
 
+import java.util.Arrays;
+import java.util.List;
+
 public class ApplicationConstant {
 
 	private ApplicationConstant() {
@@ -19,4 +22,10 @@ public class ApplicationConstant {
 	
 	//cacheName
 	public static final String CACHE_I18_CONSUMER="cache_i18_consumer";
+	
+	public static final List<String> IMAGE_TYPE_ALLOW = Arrays.asList("jpeg", "jpe", "gif", "bmp", "png", "svg", "jpg",
+			"ico");
+	public static final List<String> AUDIO_TYPE_ALLOW = Arrays.asList("mp3", "wav", "m3u", "au", "m4a");
+	public static final List<String> VIDEO_TYPE_ALLOW = Arrays.asList("mp4", "mov", "movie", "avi", "mpeg", "mpg");
+	public static final List<String> DOCUMENT_TYPE_ALLOW = Arrays.asList("pdf", "doc", "docx", "txt", "xls", "xlsx");
 }
