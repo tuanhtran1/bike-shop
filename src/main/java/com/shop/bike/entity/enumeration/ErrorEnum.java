@@ -23,7 +23,8 @@ public enum ErrorEnum {
 	BRAND_NOT_FOUND("Brand","NotFound" , "Brand is not found" ),
 	TRADING_PRODUCT_EXISTED("TradingProduct","Existed" ,"Trading product is existed" ),
 	TRADING_PRODUCT_IS_EMPTY("TradingProduct", "Empty", "Trading product is empty" ),
-	TRADING_PRODUCT_NOT_FOUND("TradingProduct","NotFound" , "Trading product is not found" );
+	TRADING_PRODUCT_NOT_FOUND("TradingProduct","NotFound" , "Trading product is not found" ),
+	STOCK_QUANTITY_NOT_ENOUGH("TradingProduct","NotEnough" , "Stock quantity trading is not enough");
 	
 	//add more...
 	private final String entityName;

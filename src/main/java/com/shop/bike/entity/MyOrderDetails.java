@@ -67,9 +67,9 @@ public class MyOrderDetails implements Serializable {
     @Column(name = "promotion_cache", length = 5000)
     private String promotionCache;
 
-    @NotNull
-    @Column(name = "weight", precision = 21, scale = 2, nullable = false)
-    private BigDecimal weight;
+//    @NotNull
+//    @Column(name = "weight", precision = 21, scale = 2, nullable = false)
+//    private BigDecimal weight;
 
     @ManyToOne
     @JsonIgnoreProperties(value = { "orderDetails" }, allowSetters = true)

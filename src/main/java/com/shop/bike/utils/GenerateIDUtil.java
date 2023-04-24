@@ -27,6 +27,7 @@ public class GenerateIDUtil {
     }
 
     public static String getItemCode(){return "ITEM"+"_"+prefix+shortUniqueCode();}
+    public static String getOrderCode(){return "ORDER"+"_"+prefix+shortUniqueCode();}
 
     private static String convert7(Long num) {
         String str = String.valueOf(num);
