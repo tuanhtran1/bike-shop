@@ -25,7 +25,9 @@ public enum ErrorEnum {
 	TRADING_PRODUCT_IS_EMPTY("TradingProduct", "Empty", "Trading product is empty" ),
 	TRADING_PRODUCT_NOT_FOUND("TradingProduct","NotFound" , "Trading product is not found" ),
 	STOCK_QUANTITY_NOT_ENOUGH("TradingProduct","NotEnough" , "Stock quantity trading is not enough"),
-	TYPE_NOT_SUPPORT("Media","NotSupported" ,"Media type is not supported" );
+	TYPE_NOT_SUPPORT("Media","NotSupported" ,"Media type is not supported" ),
+	COUPON_CODE_EXIST("CouponDiscount","Existed" ,"Coupon is existed" ),
+	COUPON_NOT_FOUND("CouponDiscount", "NotFound" , "Coupon discount is not found");
 	
 	//add more...
 	private final String entityName;

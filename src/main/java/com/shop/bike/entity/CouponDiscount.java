@@ -1,12 +1,15 @@
 package com.shop.bike.entity;
 
 
+import com.shop.bike.entity.enumeration.ActionStatus;
+import com.shop.bike.entity.enumeration.CouponStatus;
 import com.shop.bike.entity.enumeration.DiscountType;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 import java.math.BigDecimal;
+import java.time.Instant;
 
 /**
  * A CouponDiscount.
@@ -22,6 +25,10 @@ public class CouponDiscount implements Serializable {
     @SequenceGenerator(name = "sequenceGenerator")
     @Column(name = "id")
     private Long id;
+	
+	@NotNull
+	@Column(name = "name", nullable = false)
+	private String name;
 
     @NotNull
     @Column(name = "coupon_code", nullable = false)
@@ -38,13 +45,22 @@ public class CouponDiscount implements Serializable {
     @Enumerated(EnumType.STRING)
     @Column(name = "type", nullable = false)
     private DiscountType type;
+	
+	@Enumerated(EnumType.STRING)
+	@Column(name = "status")
+	private CouponStatus status;
 
     @Column(name = "max_discount", precision = 21, scale = 2)
     private BigDecimal maxDiscount;
 
     @Column(name = "quantity_limit_for_user")
     private Integer quantityLimitForUser;
-
+	
+	@Column(name = "start_date")
+	private Instant startDate;
+	
+	@Column(name = "end_date")
+	private Instant endDate;
 
     // jhipster-needle-entity-add-field - JHipster will add fields here
 
@@ -139,7 +155,39 @@ public class CouponDiscount implements Serializable {
         this.quantityLimitForUser = quantityLimitForUser;
     }
 	
-    // jhipster-needle-entity-add-getters-setters - JHipster will add getters and setters here
+	public Instant getStartDate() {
+		return startDate;
+	}
+	
+	public void setStartDate(Instant startDate) {
+		this.startDate = startDate;
+	}
+	
+	public Instant getEndDate() {
+		return endDate;
+	}
+	
+	public void setEndDate(Instant endDate) {
+		this.endDate = endDate;
+	}
+	
+	public CouponStatus getStatus() {
+		return status;
+	}
+	
+	public void setStatus(CouponStatus status) {
+		this.status = status;
+	}
+	
+	public String getName() {
+		return name;
+	}
+	
+	public void setName(String name) {
+		this.name = name;
+	}
+	
+	// jhipster-needle-entity-add-getters-setters - JHipster will add getters and setters here
 
     @Override
     public boolean equals(Object o) {

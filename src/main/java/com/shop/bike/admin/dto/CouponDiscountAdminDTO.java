@@ -1,4 +1,4 @@
-package com.shop.bike.vm;
+package com.shop.bike.admin.dto;
 
 import com.shop.bike.entity.enumeration.DiscountType;
 import lombok.Data;
@@ -8,18 +8,20 @@ import java.math.BigDecimal;
 import java.time.Instant;
 
 @Data
-public class CouponDiscountVM {
+public class CouponDiscountAdminDTO {
 	
 	private Long id;
 	
+	@NotNull
 	private String name;
-	
 	private String couponCode;
 	
 	private Integer quantityLimit;
 
+	@NotNull
 	private BigDecimal discount;
 	
+	@NotNull
 	private DiscountType type;
 	
 	private BigDecimal maxDiscount;
