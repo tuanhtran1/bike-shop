@@ -17,8 +17,8 @@ import java.util.function.Predicate;
 public class SwaggerConfig {
 	
 	//A java.util.function.Predicate
-	final static Predicate<RequestHandler> predicate = RequestHandlerSelectors.basePackage("com.example.capital_shop.admin.rest")
-			.or(RequestHandlerSelectors.basePackage("com.example.capital_shop.consumer.rest"));
+	final static Predicate<RequestHandler> predicate = RequestHandlerSelectors.basePackage("com.shop.bike.admin.rest")
+			.or(RequestHandlerSelectors.basePackage("com.shop.bike.consumer.rest"));
 	
 	@Bean
 	public Docket api() {
@@ -27,6 +27,6 @@ public class SwaggerConfig {
 				.apis(predicate)
 				.paths(PathSelectors.any())
 				.build()
-				.apiInfo(new ApiInfoBuilder().title("Dev capital shop").description("Dev captial shop api").build());
+				.apiInfo(new ApiInfoBuilder().title("Dev bike shop").description("Dev bike shop api").build());
 	}
 }
