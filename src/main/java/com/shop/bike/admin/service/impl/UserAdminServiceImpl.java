@@ -22,6 +22,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.Collections;
 import java.util.Optional;
 
 @Service
@@ -69,7 +70,8 @@ public class UserAdminServiceImpl extends UserServiceImpl implements UserAdminSe
 	 **************************************************************/
 	@Override
 	public Page<ProfileConsumerForAdminVM> findAllConsumer(ProfileFilterDTO filters, Pageable pageable) {
-		return userRepository.findAll(filters, pageable).map(profileConsumerForAdminVMMapper::toDto);
+		return userRepository.findAll(filters, Collections.singletonList(AuthorityType.ROLE_CONSUMER.toString()), pageable)
+				.map(profileConsumerForAdminVMMapper::toDto);
 	}
 	
 	/*************************************************************
