@@ -58,7 +58,7 @@ public interface ProductAdminService extends ProductService {
 	 * @date: 22/04/2023
 	 * @author: tuanhtran1 (tu.tran@ecaraid.com)
 	**************************************************************/
-	Optional<ProductAdminVM> findOneByVendor(Long id);
+	Optional<ProductAdminVM> findOneByAdmin(Long id);
 	
 	void setMinMaxPrice(Product product);
 }

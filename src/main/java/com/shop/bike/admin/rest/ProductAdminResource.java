@@ -48,7 +48,7 @@ public class ProductAdminResource {
 	@GetMapping("/product/{id}")
 	public ResponseEntity<ProductAdminVM> getProduct(@PathVariable Long id) {
 		log.debug("REST request to get Product : {}", id);
-		Optional<ProductAdminVM> productVendorVM = productAdminService.findOneByVendor(id);
+		Optional<ProductAdminVM> productVendorVM = productAdminService.findOneByAdmin(id);
 		return productVendorVM.map(response -> ResponseEntity.ok().body(response))
 				.orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND));
 	}

@@ -27,7 +27,8 @@ public enum ErrorEnum {
 	STOCK_QUANTITY_NOT_ENOUGH("TradingProduct","NotEnough" , "Stock quantity trading is not enough"),
 	TYPE_NOT_SUPPORT("Media","NotSupported" ,"Media type is not supported" ),
 	COUPON_CODE_EXIST("CouponDiscount","Existed" ,"Coupon is existed" ),
-	COUPON_NOT_FOUND("CouponDiscount", "NotFound" , "Coupon discount is not found");
+	COUPON_NOT_FOUND("CouponDiscount", "NotFound" , "Coupon discount is not found"),
+	BRAND_NAME_DUPLICATE("Brand","Duplicate" , "Brand name is duplicate");
 	
 	//add more...
 	private final String entityName;

@@ -69,7 +69,7 @@ public class ProductAdminServiceImpl extends ProductServiceImpl implements Produ
 	 **************************************************************/
 	@Override
 	@Transactional(readOnly = true)
-	public Optional<ProductAdminVM> findOneByVendor(Long id) {
+	public Optional<ProductAdminVM> findOneByAdmin(Long id) {
 		Optional<Product> productOpt = productAdminRepository.findByIdAndProductStatusNot(id, ActionStatus.DELETED);
 		if(productOpt.isEmpty()){
 			throw new BadRequestAlertException(ErrorEnum.PRODUCT_NOT_FOUND);
