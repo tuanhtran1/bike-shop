@@ -59,6 +59,10 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 				.antMatchers("/api/v1/consumer/authenticate").permitAll()
 				.antMatchers("/api/v1/admin/authenticate").permitAll()
 				.antMatchers("/api/v1/global/**").permitAll()
+				.antMatchers("/api/v1/countries/**").permitAll()
+				.antMatchers("/api/v1/provinces/**").permitAll()
+				.antMatchers("/api/v1/districts/**").permitAll()
+				.antMatchers("/api/v1/wards/**").permitAll()
 				//config each other role
 				.antMatchers("/api/**").authenticated()
 				.antMatchers("/api/v1/admin/**").hasAuthority(AuthoritiesConstants.ADMIN)

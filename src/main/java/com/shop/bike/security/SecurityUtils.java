@@ -113,4 +113,12 @@ public final class SecurityUtils {
     private static Stream<String> getAuthorities(Authentication authentication) {
         return authentication.getAuthorities().stream().map(GrantedAuthority::getAuthority);
     }
+	
+	public static boolean isAdmin() {
+		return hasCurrentUserThisAuthority(AuthoritiesConstants.ADMIN.toString());
+	}
+	
+	public static boolean isConsumer() {
+		return hasCurrentUserThisAuthority(AuthoritiesConstants.CONSUMER.toString());
+	}
 }

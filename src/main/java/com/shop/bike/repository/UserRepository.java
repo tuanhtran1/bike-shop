@@ -34,7 +34,8 @@ public interface UserRepository extends JpaRepository<User, Long> {
 			@Param("status") Integer status
 	);
 	
-	@Query("select p from User p where p.status is not null "
+	@Query("select p from User p join p.roles a where  (COALESCE(:authorities, null) is null or a.code=:authorities)"
+			+ "and p.status is not null "
 			+ "and ((:#{#filters.keyword} is null) "
 			+ "or (lower(unaccent(p.name)) like concat('%',lower(unaccent(:#{#filters.keyword})),'%')) "
 			+ "or (lower(unaccent(p.email)) like concat('%',lower(unaccent(:#{#filters.keyword})),'%'))) "
@@ -46,5 +47,7 @@ public interface UserRepository extends JpaRepository<User, Long> {
 			+ "and (:#{#filters.createdDateFrom} is null or p.createdDate>=:#{#filters.createdDateFrom}) "
 			+ "and (:#{#filters.createdDateTo} is null or p.createdDate<=:#{#filters.createdDateTo}) "
 	)
-	Page<User> findAll(@Param("filters") ProfileFilterDTO filters, Pageable page);
+	Page<User> findAll(@Param("filters") ProfileFilterDTO filters,
+					   @Param("authorities") List<String> authorities,
+					   Pageable page);
 }
