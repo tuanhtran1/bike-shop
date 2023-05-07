@@ -8,4 +8,8 @@ public class BrandVM {
 	private Long id;
 	
 	private String name;
+	
+	private String shortName;
+	
+	private String description;
 }

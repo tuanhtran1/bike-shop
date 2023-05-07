@@ -18,5 +18,5 @@ public interface BrandAdminRepository extends BrandRepository {
 	
 	Optional<Brand> findOneByNameAndStatusNot(String name, ActionStatus status);
 	
-	List<Brand> findAllByStatusNot(ActionStatus status);
+	
 }

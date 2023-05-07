@@ -12,6 +12,7 @@ import com.shop.bike.entity.enumeration.ActionStatus;
 import com.shop.bike.entity.enumeration.ErrorEnum;
 import com.shop.bike.security.SecurityUtils;
 import com.shop.bike.service.impl.BrandServiceImpl;
+import com.shop.bike.vm.BrandVM;
 import com.shop.bike.web.rest.errors.BadRequestAlertException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -50,9 +51,8 @@ public class BrandAdminServiceImpl extends BrandServiceImpl implements BrandAdmi
 	 * @author: tuanhtran1 (tu.tran@ecaraid.com)
 	 **************************************************************/
 	@Override
-	public List<BrandAdminVM> getListOption() {
-		return brandAdminRepository.findAllByStatusNot(ActionStatus.DELETED)
-				.stream().map(vmMapper::toDto).collect(Collectors.toList());
+	public List<BrandVM> getListOptionAdmin() {
+		return this.getListOption();
 	}
 	
 	/*************************************************************

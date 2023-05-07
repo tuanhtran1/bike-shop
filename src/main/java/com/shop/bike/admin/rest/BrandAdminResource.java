@@ -4,6 +4,7 @@ import com.shop.bike.admin.dto.BrandAdminDTO;
 import com.shop.bike.admin.service.BrandAdminService;
 import com.shop.bike.admin.vm.BrandAdminVM;
 import com.shop.bike.constant.ApplicationConstant;
+import com.shop.bike.vm.BrandVM;
 import com.shop.bike.web.rest.errors.BadRequestAlertException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -34,9 +35,9 @@ public class BrandAdminResource {
 	
 	
 	@GetMapping("/brands/option")
-	public ResponseEntity<List<BrandAdminVM>> findAll() {
+	public ResponseEntity<List<BrandVM>> findAll() {
 		log.debug("REST request to get all Brand Option ");
-		List<BrandAdminVM> listOption = brandAdminService.getListOption();
+		List<BrandVM> listOption = brandAdminService.getListOptionAdmin();
 		return ResponseEntity.ok().body(listOption);
 	}
 	

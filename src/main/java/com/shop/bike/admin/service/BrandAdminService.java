@@ -3,6 +3,7 @@ package com.shop.bike.admin.service;
 import com.shop.bike.admin.dto.BrandAdminDTO;
 import com.shop.bike.admin.vm.BrandAdminVM;
 import com.shop.bike.service.BrandService;
+import com.shop.bike.vm.BrandVM;
 
 import java.util.List;
 import java.util.Optional;
@@ -19,7 +20,7 @@ public interface BrandAdminService extends BrandService {
 	 * @date: 06/05/2023
 	 * @author: tuanhtran1 (tu.tran@ecaraid.com)
 	**************************************************************/
-	List<BrandAdminVM> getListOption();
+	List<BrandVM> getListOptionAdmin();
 	
 	/*************************************************************
 	 *
