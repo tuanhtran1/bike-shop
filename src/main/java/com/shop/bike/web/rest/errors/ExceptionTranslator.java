@@ -40,7 +40,12 @@ public class ExceptionTranslator implements ProblemHandling, SecurityAdviceTrait
 	private static final String VIOLATIONS_KEY = "violations";
     private final Environment env;
 	
-	private static final String applicationName = "capital_shop";
+	private static final String applicationName = "bike";
+	
+	private static final String ALLOWED_HEADERS = "x-requested-with, authorization, Content-Type, Authorization, credential, X-XSRF-TOKEN";
+	private static final String ALLOWED_METHODS = "GET, PUT, POST, DELETE, OPTIONS";
+	private static final String ALLOWED_ORIGIN = "*";
+	private static final String MAX_AGE = "3600";
 
     public ExceptionTranslator(Environment env) {
         this.env = env;
@@ -176,7 +181,7 @@ public class ExceptionTranslator implements ProblemHandling, SecurityAdviceTrait
 
     private boolean containsPackageName(String message) {
         // This list is for sure not complete
-        return StringUtils.containsAny(message, "org.", "java.", "net.", "javax.", "com.", "io.", "de.", "com.example.capital_shop");
+        return StringUtils.containsAny(message, "org.", "java.", "net.", "javax.", "com.", "io.", "de.", "com.shop.bike");
     }
 	
 	public HttpHeaders createFailureAlert(String applicationName, boolean enableTranslation, String entityName, String errorKey, String defaultMessage) {

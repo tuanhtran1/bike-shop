@@ -1,10 +1,7 @@
-package com.shop.bike.admin.vm;
+package com.shop.bike.consumer.vm;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonProperty;
+import com.shop.bike.admin.vm.ProductAttributeVM;
 import com.shop.bike.entity.enumeration.ActionStatus;
-import com.shop.bike.utils.JsonConverter;
-import com.shop.bike.vm.BrandVM;
 import lombok.Data;
 
 import java.math.BigDecimal;
@@ -12,11 +9,9 @@ import java.time.Instant;
 import java.util.List;
 
 @Data
-public class TradingProductAdminVM {
+public class TradingProductConsumerVM {
 	
 	private Long id;
-	
-	private Long productId;
 	
 	private String name;
 	

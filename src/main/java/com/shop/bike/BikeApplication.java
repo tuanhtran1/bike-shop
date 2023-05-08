@@ -1,10 +1,12 @@
 package com.shop.bike;
 
+import com.shop.bike.web.rest.errors.FeignErrorDecoder;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.context.annotation.Bean;
 import org.springframework.core.env.Environment;
 
 import javax.annotation.PostConstruct;
@@ -93,5 +95,10 @@ public class BikeApplication {
 						"Config Server: \t{}\n----------------------------------------------------------",
 				configServerStatus
 		);
+	}
+	
+	@Bean
+	public FeignErrorDecoder errorDecoder() {
+		return new FeignErrorDecoder();
 	}
 }

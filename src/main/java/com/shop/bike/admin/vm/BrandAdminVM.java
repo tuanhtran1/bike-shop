@@ -1,5 +1,6 @@
 package com.shop.bike.admin.vm;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.shop.bike.entity.enumeration.ActionStatus;
 import lombok.Data;
 
@@ -15,6 +16,7 @@ public class BrandAdminVM {
 	private String shortName;
 	
 	
+	@JsonIgnore
 	private ActionStatus status;
 	
 	

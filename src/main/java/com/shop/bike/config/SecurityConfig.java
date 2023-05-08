@@ -6,9 +6,7 @@ import com.shop.bike.security.jwt.JwtAuthenticationFilter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.context.annotation.Lazy;
 import org.springframework.security.authentication.AuthenticationManager;
-import org.springframework.security.config.BeanIds;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
@@ -17,11 +15,7 @@ import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
-import org.springframework.web.cors.CorsConfiguration;
-import org.springframework.web.cors.CorsConfigurationSource;
-import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
-
-import java.util.Arrays;
+import org.springframework.security.web.header.writers.ReferrerPolicyHeaderWriter;
 
 @Configuration
 @EnableWebSecurity
@@ -34,7 +28,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     private JwtAuthenticationEntryPoint unauthorizedHandler;
 
     @Override
-    @Bean(BeanIds.AUTHENTICATION_MANAGER)
+    @Bean
     public AuthenticationManager authenticationManagerBean() throws Exception {
         return super.authenticationManagerBean();
     }
@@ -52,28 +46,40 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(HttpSecurity http) throws Exception {
 		http
-				.cors().and() // Sử dụng CorsFilter
-				.csrf().disable() // Vô hiệu hóa CSRF protection
-				.authorizeRequests()
-				//permit all
-				.antMatchers("/api/v1/consumer/authenticate").permitAll()
-				.antMatchers("/api/v1/admin/authenticate").permitAll()
-				.antMatchers("/api/v1/global/**").permitAll()
-				.antMatchers("/api/v1/countries/**").permitAll()
-				.antMatchers("/api/v1/provinces/**").permitAll()
-				.antMatchers("/api/v1/districts/**").permitAll()
-				.antMatchers("/api/v1/wards/**").permitAll()
-				//config each other role
-				.antMatchers("/api/**").authenticated()
-				.antMatchers("/api/v1/admin/**").hasAuthority(AuthoritiesConstants.ADMIN)
-				.antMatchers("/api/v1/consumer/**").hasAuthority(AuthoritiesConstants.CONSUMER)
-			
-				//swagger
-				.antMatchers(AUTH_WHITELIST).permitAll()
-				.anyRequest().authenticated()
+					.cors()// Sử dụng CorsFilter
 				.and()
-				.exceptionHandling().authenticationEntryPoint(unauthorizedHandler).and()
-				.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
+					.csrf().disable()// Vô hiệu hóa CSRF protection
+				.exceptionHandling()
+					.authenticationEntryPoint(unauthorizedHandler)
+				.and()
+					.headers()
+					.referrerPolicy(ReferrerPolicyHeaderWriter.ReferrerPolicy.STRICT_ORIGIN_WHEN_CROSS_ORIGIN)
+				.and()
+					.permissionsPolicy().policy("camera=(), fullscreen=(self), geolocation=(), gyroscope=(), magnetometer=(), microphone=(), midi=(), payment=(), sync-xhr=()")
+				.and()
+					.frameOptions()
+					.deny()
+				.and()
+					.sessionManagement()
+					.sessionCreationPolicy(SessionCreationPolicy.STATELESS)
+				.and()
+					.authorizeRequests()
+					//permit all
+					.antMatchers("/api/v1/consumer/authenticate").permitAll()
+					.antMatchers("/api/v1/admin/authenticate").permitAll()
+					.antMatchers("/api/v1/global/**").permitAll()
+					.antMatchers("/api/v1/countries/**").permitAll()
+					.antMatchers("/api/v1/provinces/**").permitAll()
+					.antMatchers("/api/v1/districts/**").permitAll()
+					.antMatchers("/api/v1/wards/**").permitAll()
+					//config each other role
+					.antMatchers("/api/**").authenticated()
+					.antMatchers("/api/v1/admin/**").hasAuthority(AuthoritiesConstants.ADMIN)
+					.antMatchers("/api/v1/consumer/**").hasAuthority(AuthoritiesConstants.CONSUMER)
+					//swagger
+					.antMatchers(AUTH_WHITELIST).permitAll()
+					.anyRequest().authenticated();
+		
 		http.addFilterBefore(authenticationTokenFilterBean(), UsernamePasswordAuthenticationFilter.class);
     }
 
