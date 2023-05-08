@@ -28,7 +28,8 @@ public enum ErrorEnum {
 	TYPE_NOT_SUPPORT("Media","NotSupported" ,"Media type is not supported" ),
 	COUPON_CODE_EXIST("CouponDiscount","Existed" ,"Coupon is existed" ),
 	COUPON_NOT_FOUND("CouponDiscount", "NotFound" , "Coupon discount is not found"),
-	BRAND_NAME_DUPLICATE("Brand","Duplicate" , "Brand name is duplicate");
+	BRAND_NAME_DUPLICATE("Brand","Duplicate" , "Brand name is duplicate"),
+	TRADING_PRODUCT_ATTRIBUTE("TradingProduct","Existed" , "Trading product attribute is existed");
 	
 	//add more...
 	private final String entityName;
@@ -36,7 +37,6 @@ public enum ErrorEnum {
 	private String message;
 
 	public String getMessage() {
-		message = getEntityName() + "." + getErrorKey();
 		return message;
 	}
 

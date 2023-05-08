@@ -29,10 +29,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.HashSet;
-import java.util.List;
-import java.util.Optional;
-import java.util.Set;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @Service
@@ -175,7 +172,7 @@ public class TradingProductAdminServiceImpl extends TradingProductServiceImpl im
 			for(TradingProduct t: tradingProducts){
 				List<ProductAttribute> attributes = t.getAttributes().stream().collect(Collectors.toList());
 				if(isSameAttributes(attributesDTO, attributes)){
-					throw new BadRequestAlertException(ErrorEnum.TRADING_PRODUCT_EXISTED);
+					throw new BadRequestAlertException(ErrorEnum.TRADING_PRODUCT_ATTRIBUTE);
 				}
 			}
 		}
@@ -212,7 +209,8 @@ public class TradingProductAdminServiceImpl extends TradingProductServiceImpl im
 				&& !attributesDTO.isEmpty() && !attributes.isEmpty()) {
 			for (ProductAttributeDTO atrributeDTO : attributesDTO) {
 				for (ProductAttribute attribute : attributes) {
-					if (atrributeDTO.getName().equals(attribute.getName()) && !atrributeDTO.getValue().equals(attribute.getValue())) {
+					if (atrributeDTO.getName().equalsIgnoreCase(attribute.getName())
+							&& !atrributeDTO.getValue().equalsIgnoreCase(attribute.getValue())) { //
 						return false;
 					}
 				}
