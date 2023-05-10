@@ -9,6 +9,7 @@ import com.shop.bike.consumer.vm.mapper.MyOrderConsumerVMMapper;
 import com.shop.bike.entity.Address;
 import com.shop.bike.entity.MyOrder;
 import com.shop.bike.entity.enumeration.ErrorEnum;
+import com.shop.bike.entity.enumeration.OrderStatus;
 import com.shop.bike.repository.AddressRepository;
 import com.shop.bike.security.SecurityUtils;
 import com.shop.bike.service.MyOrderService;
@@ -61,5 +62,10 @@ public class MyOrderServiceConsumerImpl extends MyOrderServiceImpl implements My
 //		newOrder.setAddress(address);
 		
 		return myOrderConsumerVMMapper.toDto(myOrderConsumerRepository.save(newOrder));
+	}
+	
+	@Override
+	public void cancel(Long id, String note) {
+		updateStatus(id, OrderStatus.CANCELED, note);
 	}
 }

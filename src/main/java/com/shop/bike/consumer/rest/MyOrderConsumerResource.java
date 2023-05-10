@@ -32,10 +32,10 @@ public class MyOrderConsumerResource {
 		return ResponseEntity.ok(result);
 	}
 	
-//	@PutMapping("/order/cancel/{id}")
-//	public ResponseEntity<Void> cancelOrder(@PathVariable("id") Long id) throws URISyntaxException {
-//		log.debug("REST request to accept order");
-//		orderConsumerService.cancel(id);
-//		return ResponseEntity.noContent().build();
-//	}
+	@PutMapping("/orders/cancel/{id}")
+	public ResponseEntity<Void	> cancelOrder(@PathVariable Long id, @RequestParam(name = "note", required = false)String note) {
+		log.debug("REST request to get MyOrder : {}", id);
+		myOrderConsumerService.cancel(id, note);
+		return ResponseEntity.noContent().build();
+	}
 }

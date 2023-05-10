@@ -3,11 +3,9 @@ package com.shop.bike.service.impl;
 import com.shop.bike.consumer.dto.CreateOrderDTO;
 import com.shop.bike.entity.MyOrder;
 import com.shop.bike.entity.OrderAuditing;
-import com.shop.bike.entity.enumeration.DeliveryStatus;
-import com.shop.bike.entity.enumeration.OrderStatus;
-import com.shop.bike.entity.enumeration.PaymentGateway;
-import com.shop.bike.entity.enumeration.PaymentStatus;
+import com.shop.bike.entity.enumeration.*;
 import com.shop.bike.repository.MyOrderRepository;
+import com.shop.bike.security.SecurityUtils;
 import com.shop.bike.service.MyOrderDetailService;
 import com.shop.bike.service.MyOrderService;
 import com.shop.bike.utils.GenerateIDUtil;
@@ -85,14 +83,14 @@ public class MyOrderServiceImpl implements MyOrderService {
 				orderAuditingDTO.setAcceptedDate(now);
 				break;
 			case CANCELED:
-//				if(!Se.isAdmin()){
-//					if(orderAuditingDTO.getPackagedDate() != null) {
-//						throw new BadRequestAlertException(ErrorEnum.CAN_NOT_CANCEL_PACKAGED_ORDER);
-//					}
-//				}
-//				if(orderAuditingDTO.getDoneDate() != null){
-//					throw new BadRequestAlertException(ErrorEnum.CAN_NOT_CANCEL_DONE_ORDER);
-//				}
+				if(!SecurityUtils.isAdmin()){
+					if(orderAuditingDTO.getAcceptedDate() != null) {
+						throw new BadRequestAlertException(ErrorEnum.CAN_NOT_CANCEL_ACCEPTED_ORDER);
+					}
+				}
+				if(orderAuditingDTO.getDoneDate() != null){
+					throw new BadRequestAlertException(ErrorEnum.CAN_NOT_CANCEL_DONE_ORDER);
+				}
 				orderAuditingDTO.setCanceledDate(now);
 				break;
 			case DELETED:
@@ -111,12 +109,6 @@ public class MyOrderServiceImpl implements MyOrderService {
 			case SHIPPING:
 				orderAuditingDTO.setShippingDate(now);
 				break;
-			case WAITING_BANK_TRANSFER:
-				//TODO
-				break;
-			case WAITING_BANK_TRANSFERRED_CONFIRM:
-				//TODO
-				break;
 			case DONE:
 				if(existingOrder.getPaymentGateway().equals(PaymentGateway.CASH)){
 					orderAuditingDTO.setPaymentDate(now);
@@ -128,5 +120,20 @@ public class MyOrderServiceImpl implements MyOrderService {
 		}
 		existingOrder.setAudit(orderAuditingDTO.toString());
 		existingOrder.setStatus(orderStatus);
+	}
+	
+	protected MyOrder updateStatus(Long id, OrderStatus status, String note) {
+		MyOrder myOrder = myOrderRepository.findById(id)
+				.filter(o -> {
+					Long userId = Long.valueOf(SecurityUtils.getCurrentUserLogin().get());
+					if(SecurityUtils.isConsumer()) {
+						return userId.equals(o.getBuyerId());
+					} else return SecurityUtils.isAdmin();
+				})
+				.orElseThrow(() -> new BadRequestAlertException(ErrorEnum.ORDER_NOT_FOUND));
+		setAudit(myOrder, status);
+		myOrder.setStatus(status);
+		myOrder.setNote(note);
+		return myOrderRepository.save(myOrder);
 	}
 }
