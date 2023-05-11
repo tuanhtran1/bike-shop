@@ -66,6 +66,9 @@ public class Product extends BaseEntity {
 
 	@Column(name = "origin")
 	private String origin;
+	
+	@Column(name = "amount_orders")
+	private Integer amountOrders;
 
 	@Column(name = "min_price", precision = 21, scale = 2)
 	private BigDecimal minPrice;

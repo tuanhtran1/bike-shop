@@ -18,6 +18,8 @@ public class TradingProductAdminDTO {
 	@NotNull
 	private BigDecimal price;
 	
+	private BigDecimal salePrice;
+	
 	private String description;
 	
 	private Integer stockQuantity;

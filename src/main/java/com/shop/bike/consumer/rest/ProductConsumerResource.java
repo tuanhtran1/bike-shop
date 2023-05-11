@@ -39,9 +39,10 @@ public class ProductConsumerResource {
 	public ResponseEntity<List<ProductBaseConsumerVM>> getAllProducts(
 			@RequestParam(name = "keyword", required = false) String keyword,
 			@RequestParam(name = "brandId", required = false) Long brandId,
+			@RequestParam(name = "isHaveFlashSale", required = false) Boolean isHaveFlashSale,
 			Pageable pageable) {
 		log.debug("REST request to get a page of Products");
-		Page<ProductBaseConsumerVM> page = productService.findAll(keyword, brandId, pageable);
+		Page<ProductBaseConsumerVM> page = productService.findAll(keyword, brandId, isHaveFlashSale, pageable);
 		HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(ServletUriComponentsBuilder.fromCurrentRequest(), page);
 		return ResponseEntity.ok().headers(headers).body(page.getContent());
 	}
