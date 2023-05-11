@@ -2,6 +2,7 @@ package com.shop.bike.consumer.vm;
 
 import com.shop.bike.admin.vm.ProductAttributeVM;
 import com.shop.bike.entity.enumeration.ActionStatus;
+import com.shop.bike.entity.enumeration.ApproveStatus;
 import lombok.Data;
 
 import java.math.BigDecimal;
@@ -17,6 +18,8 @@ public class TradingProductConsumerVM {
 	
 	private BigDecimal price;
 	
+	private BigDecimal salePrice;
+	
 	private BigDecimal originalPrice;
 	
 	private Integer stockQuantity;
@@ -24,6 +27,8 @@ public class TradingProductConsumerVM {
 	private Integer lowStockThreshold;
 	
 	private ActionStatus status;
+	
+	private ApproveStatus approveStatus;
 	
 	private Long brandId;
 	

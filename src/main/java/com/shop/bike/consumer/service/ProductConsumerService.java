@@ -25,7 +25,7 @@ public interface ProductConsumerService extends ProductService {
 	 * @author: tuanhtran1 (tu.tran@ecaraid.com)
 	**************************************************************/
 	
-	Page<ProductBaseConsumerVM> findAll(String keyword, Long brandId, Pageable pageable);
+	Page<ProductBaseConsumerVM> findAll(String keyword, Long brandId, Boolean isHaveFlashSale, Pageable pageable);
 	
 	/*************************************************************
 	 *

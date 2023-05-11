@@ -29,7 +29,10 @@ public enum ErrorEnum {
 	COUPON_CODE_EXIST("CouponDiscount","Existed" ,"Coupon is existed" ),
 	COUPON_NOT_FOUND("CouponDiscount", "NotFound" , "Coupon discount is not found"),
 	BRAND_NAME_DUPLICATE("Brand","Duplicate" , "Brand name is duplicate"),
-	TRADING_PRODUCT_ATTRIBUTE("TradingProduct","Existed" , "Trading product attribute is existed");
+	TRADING_PRODUCT_ATTRIBUTE("TradingProduct","Existed" , "Trading product attribute is existed"),
+	ORDER_NOT_FOUND("MyOrder", "NotFound", "Order is not found"),
+	CAN_NOT_CANCEL_DONE_ORDER("DoneOrder","CanNotCancel" , "Cannot cancel done order" ),
+	CAN_NOT_CANCEL_ACCEPTED_ORDER("AcceptedOrder","CanNotCancel" , "Cannot cancel accepted order");
 	
 	//add more...
 	private final String entityName;

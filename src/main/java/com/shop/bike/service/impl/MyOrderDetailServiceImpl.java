@@ -33,6 +33,9 @@ public class MyOrderDetailServiceImpl implements MyOrderDetailService {
 	@Autowired
 	private TradingProductRepository tradingProductRepository;
 	
+	@Autowired
+	private ProductService productService;
+	
 	@Override
 	public Set<MyOrderDetails> create(MyOrder newOrder, List<CreateOrderDetailDTO> orderDetailsDTO) {
 		
@@ -86,6 +89,7 @@ public class MyOrderDetailServiceImpl implements MyOrderDetailService {
 		orderDetail.setImages(JsonConverter.toJson(tradingProduct.getMedia()));
 		orderDetail.setTradingProductId(tradingProduct.getId());
 		orderDetail.setTradingProductCache(JsonConverter.toJson(tradingProduct));
+		productService.increaseAmountOrder(tradingProduct.getProduct(), 1);
 		if(tradingProduct.getStockQuantity() >= orderDetail.getQuantity()){
 			tradingProduct.setStockQuantity(tradingProduct.getStockQuantity() - orderDetail.getQuantity());
 			tradingProductRepository.save(tradingProduct);

@@ -17,4 +17,6 @@ public interface MyOrderConsumerService extends MyOrderService {
 	 * @author: tuanhtran1 (tu.tran@ecaraid.com)
 	**************************************************************/
 	MyOrderConsumerVM createOrderByConsumer(CreateOrderDTO dto);
+	
+	void cancel(Long id, String note);
 }

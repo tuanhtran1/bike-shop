@@ -18,8 +18,12 @@ public interface ProductConsumerRepository extends ProductRepository {
 			+ " AND exists(select tp from p.tradingProducts tp where tp.status = 'ACTIVATED' and tp.approveStatus = 'APPROVED' and tp.stockQuantity > 0) "
 			+ " AND (:keyword is null OR (lower(unaccent(p.name)) like concat('%',lower(unaccent(:keyword)),'%')))"
 			+ " AND (:brandId is null OR p.brand.id =:brandId ) "
+			+ " AND (:isFlashSale is null "
+			+ " OR :isFlashSale = true and exists(select tp from p.tradingProducts tp where tp.status = 'ACTIVATED' and tp.approveStatus = 'APPROVED' and tp.stockQuantity > 0 and tp.salePrice is not null) "
+			+ " OR :isFlashSale = false and not exists(select tp from p.tradingProducts tp where tp.status = 'ACTIVATED' and tp.approveStatus = 'APPROVED' and tp.stockQuantity > 0 and tp.salePrice is not null)) "
 			+ "")
 	Page<Product> findAllRunningProduct(@Param("keyword") String keyword,
-						  @Param("brandId") Long brandId,
-						  Pageable pageable);
+									   @Param("brandId") Long brandId,
+									   @Param("isFlashSale") Boolean isFlashSale,
+									   Pageable pageable);
 }

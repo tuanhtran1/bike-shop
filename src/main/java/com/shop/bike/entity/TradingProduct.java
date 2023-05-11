@@ -34,6 +34,9 @@ public class TradingProduct extends BaseEntity implements Serializable {
 
     @Column(name = "price", precision = 21, scale = 2)
     private BigDecimal price;
+	
+	@Column(name = "sale_price")
+	private BigDecimal salePrice; //gia giam
 
     @Size(max = 1000)
     @Column(name = "media", length = 5000)
@@ -71,7 +74,7 @@ public class TradingProduct extends BaseEntity implements Serializable {
 	@Column(name = "brand_id")
 	private Long brandId;
 
-    @Column(name = "original_price", precision = 21, scale = 2)
+    @Column(name = "original_price")
     private BigDecimal originalPrice;
 
     @Column(name = "approval_date")
@@ -83,9 +86,6 @@ public class TradingProduct extends BaseEntity implements Serializable {
     @Enumerated(EnumType.STRING)
     @Column(name = "approve_status")
     private ApproveStatus approveStatus;
-
-//    @Column(name = "quantity_min", nullable = false)
-//    private Double quantityMin;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JsonIgnoreProperties(value = { "tradingProducts", "brand"}, allowSetters = true)
