@@ -46,7 +46,7 @@ public class WardsServiceImpl implements WardsService {
 	
 	@Override
 	public Optional<Wards> findOneById(Long wardsId) {
-		return Optional.empty();
+		return wardsRepository.findById(wardsId);
 	}
 	
 }

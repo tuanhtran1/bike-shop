@@ -13,13 +13,10 @@ import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
-import java.util.Optional;
 
 @Repository
 @Qualifier(ApplicationConstant.ADMIN)
 public interface CouponDiscountAdminRepository extends CouponDiscountRepository {
-	
-	Optional<CouponDiscount> findByIdAndStatusNot(Long id, CouponStatus status);
 
 	List<CouponDiscount> findAllByStatusNot(CouponStatus status);
 	

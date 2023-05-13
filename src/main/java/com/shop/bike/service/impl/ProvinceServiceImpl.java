@@ -46,6 +46,6 @@ public class ProvinceServiceImpl implements ProvinceService {
 	
 	@Override
 	public Optional<Province> findOneById(Long provinceId) {
-		return Optional.empty();
+		return provinceRepository.findById(provinceId);
 	}
 }

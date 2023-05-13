@@ -32,7 +32,11 @@ public enum ErrorEnum {
 	TRADING_PRODUCT_ATTRIBUTE("TradingProduct","Existed" , "Trading product attribute is existed"),
 	ORDER_NOT_FOUND("MyOrder", "NotFound", "Order is not found"),
 	CAN_NOT_CANCEL_DONE_ORDER("DoneOrder","CanNotCancel" , "Cannot cancel done order" ),
-	CAN_NOT_CANCEL_ACCEPTED_ORDER("AcceptedOrder","CanNotCancel" , "Cannot cancel accepted order");
+	CAN_NOT_CANCEL_ACCEPTED_ORDER("AcceptedOrder","CanNotCancel" , "Cannot cancel accepted order"),
+	DISTRICT_NOT_FOUND("District","NotFound" ,"District is not found"),
+	PROVINCE_NOT_FOUND("Province","NotFound" ,"Province is not found"),
+	WARDS_NOT_FOUND("Wards","NotFound" ,"Wards is not found"),
+	COUNTRY_NOT_FOUND("Country","NotFound" ,"Country is not found");
 	
 	//add more...
 	private final String entityName;
