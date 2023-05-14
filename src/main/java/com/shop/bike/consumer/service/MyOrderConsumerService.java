@@ -19,4 +19,8 @@ public interface MyOrderConsumerService extends MyOrderService {
 	MyOrderConsumerVM createOrderByConsumer(CreateOrderDTO dto);
 	
 	void cancel(Long id, String note);
+	
+	void paymentCash(Long id);
+	
+	void paymentTrade(Long id);
 }

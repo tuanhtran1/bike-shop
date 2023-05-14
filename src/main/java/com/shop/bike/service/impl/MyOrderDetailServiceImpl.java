@@ -43,7 +43,7 @@ public class MyOrderDetailServiceImpl implements MyOrderDetailService {
 		Set<MyOrderDetails> myOrderDetails = new HashSet<MyOrderDetails>();
 		
 		for (CreateOrderDetailDTO orderDetailDTO : orderDetailsDTO) {
-			TradingProduct tradingProduct = tradingProductRepository.findById(orderDetailDTO.getProductTradingId())
+			TradingProduct tradingProduct = tradingProductRepository.findById(orderDetailDTO.getTradingProductId())
 					.orElseThrow(() -> new BadRequestAlertException(ErrorEnum.TRADING_PRODUCT_NOT_FOUND));
 			
 			//Initialize an orderDetail

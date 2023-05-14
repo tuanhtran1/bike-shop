@@ -9,7 +9,7 @@ import java.math.BigDecimal;
 public class CreateOrderDetailDTO {
 	
 	@NotNull
-	private Long productTradingId;
+	private Long tradingProductId;
 	
 	@NotNull
 	private Integer quantity;

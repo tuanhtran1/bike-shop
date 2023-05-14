@@ -68,29 +68,18 @@ public class MyOrderConsumerVM {
     private Instant createdDate;
 
     private Instant date;
-    
-    private Long shippingAddressId;
+	
+	@JsonProperty("shippingAddress")
+	private ShippingAddressVM address;
     
     private Set<MyOrderDetailsConsumerVM> orderDetails;
-    
-    @JsonIgnore
-    private String shippingAddressCache;
+	
 	
     @JsonProperty("couponDiscountCache")
 	public CouponDiscountVM getCouponDiscountCacheObject() {
 		return JsonConverter.toObject(this.couponDiscountCache, CouponDiscountVM.class);
 	}
-
-    @JsonProperty("shippingCache")
-	public Object getShippingCacheObject() {
-		return JsonConverter.toObject(this.shippingCache, Object.class);
-	}
-
-    @JsonProperty("shippingAddress")
-    public Object getshippingAddressObject() {
-    	if(this.shippingAddressCache != null) return JsonConverter.toObject(this.shippingAddressCache, Object.class);
-    	return null;
-    }
+	
     
     public void setAudit(String audit) {
     	this.audit = audit;

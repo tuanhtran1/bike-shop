@@ -103,7 +103,7 @@ public class MyOrder extends BaseEntity implements Serializable {
     @Column(name = "shipping_code")
     private String shippingCode;
 
-    @Column(name = "shipping_address_cache")
+    @Column(name = "shipping_address_cache", length = 1000)
     private String shippingAddressCache;
 	
 	@OneToOne

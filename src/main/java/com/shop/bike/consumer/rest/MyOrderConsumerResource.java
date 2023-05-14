@@ -38,4 +38,18 @@ public class MyOrderConsumerResource {
 		myOrderConsumerService.cancel(id, note);
 		return ResponseEntity.noContent().build();
 	}
+	
+	@PutMapping("/orders/confirm/payment-cash/{id}")
+	public ResponseEntity<Void> paymentCash(@PathVariable Long id ) {
+		log.debug("REST request to get MyOrder : {}", id);
+		myOrderConsumerService.paymentCash(id);
+		return ResponseEntity.noContent().build();
+	}
+	
+	@PutMapping("/orders/confirm/payment-trade/{id}")
+	public ResponseEntity<Void> paymentTrade(@PathVariable Long id ) {
+		log.debug("REST request to get MyOrder : {}", id);
+		myOrderConsumerService.paymentTrade(id);
+		return ResponseEntity.noContent().build();
+	}
 }

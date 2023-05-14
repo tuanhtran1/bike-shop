@@ -4,8 +4,10 @@ import com.shop.bike.consumer.dto.CreateOrderDTO;
 import com.shop.bike.entity.MyOrder;
 import com.shop.bike.entity.OrderAuditing;
 import com.shop.bike.entity.enumeration.*;
+import com.shop.bike.repository.CouponDiscountRepository;
 import com.shop.bike.repository.MyOrderRepository;
 import com.shop.bike.security.SecurityUtils;
+import com.shop.bike.service.CouponDiscountService;
 import com.shop.bike.service.MyOrderDetailService;
 import com.shop.bike.service.MyOrderService;
 import com.shop.bike.utils.GenerateIDUtil;
@@ -31,6 +33,12 @@ public class MyOrderServiceImpl implements MyOrderService {
 	@Autowired
 	private MyOrderRepository myOrderRepository;
 	
+	@Autowired
+	private CouponDiscountService couponDiscountService;
+	
+	@Autowired
+	private CouponDiscountRepository couponDiscountRepository;
+	
 	private static final BigDecimal shippingFee = BigDecimal.valueOf(50000.0);
 	
 	protected MyOrder initOrder(CreateOrderDTO myOrderDTO) {
@@ -38,7 +46,7 @@ public class MyOrderServiceImpl implements MyOrderService {
 		//Initialize an order
 		MyOrder newOrder = new MyOrder();
 		
-		newOrder.setPaymentGateway(myOrderDTO.getPaymentGateway());
+//		newOrder.setPaymentGateway(myOrderDTO.getPaymentGateway());
 		
 		//Set order code
 		newOrder.setCode(GenerateIDUtil.getOrderCode());
@@ -59,16 +67,9 @@ public class MyOrderServiceImpl implements MyOrderService {
 		myOrderDetailService.create(newOrder, myOrderDTO.getOrderDetails());
 		
 		//process shipping fee
-		newOrder.setShippingFee(shippingFee);
+		newOrder.setShippingFee(myOrderDTO.getShippingFee()); //location
 		
-		//process shipping fee
-		newOrder.setDiscount(BigDecimal.ZERO);
-		
-		//Set total
-		BigDecimal total = newOrder.getSubTotal()
-				.subtract(newOrder.getDiscount())
-				.add(newOrder.getShippingFee());
-		newOrder.setTotal(total);
+		newOrder.setTotal(BigDecimal.ZERO);
 		
 		return newOrder;
 	}
@@ -135,5 +136,24 @@ public class MyOrderServiceImpl implements MyOrderService {
 		myOrder.setStatus(status);
 		myOrder.setNote(note);
 		return myOrderRepository.save(myOrder);
+	}
+	
+	protected BigDecimal getCashDiscount(BigDecimal total, BigDecimal discountValue, DiscountType type) {
+		if (discountValue != null) {
+			if (DiscountType.CASH.equals(type)) {
+				return discountValue;
+			} else if (DiscountType.TRADE.equals(type)) {
+				if (total != null) {
+					return total.multiply(discountValue).divide(BigDecimal.valueOf(100));
+				} else {
+					log.error("Total is null");
+				}
+			} else {
+				log.error("Invalid discount type: {}", type);
+			}
+		} else {
+			log.error("Discount value is null");
+		}
+		return BigDecimal.ZERO;
 	}
 }

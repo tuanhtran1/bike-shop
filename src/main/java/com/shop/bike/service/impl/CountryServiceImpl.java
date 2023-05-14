@@ -40,7 +40,7 @@ public class CountryServiceImpl implements CountryService {
 	
 	@Override
 	public Optional<Country> findOneById(Long countryId) {
-		return Optional.empty();
+		return countryRepository.findById(countryId);
 	}
 	
 	

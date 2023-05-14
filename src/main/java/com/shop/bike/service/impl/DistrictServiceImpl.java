@@ -46,6 +46,6 @@ public class DistrictServiceImpl implements DistrictService {
 	
 	@Override
 	public Optional<District> findOneById(Long districtId) {
-		return Optional.empty();
+		return districtRepository.findById(districtId);
 	}
 }

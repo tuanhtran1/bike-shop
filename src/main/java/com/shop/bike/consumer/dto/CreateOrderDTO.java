@@ -15,16 +15,15 @@ import java.util.List;
 public class CreateOrderDTO {
 	
 	private Long id;
-	
 	@NotNull
-	private Long shippingAddressId;
+	private AddressDTO address;
 	
 	private String couponCode;
 	
 	private String note;
 	
-	@NotNull
-	private PaymentGateway paymentGateway;
+//	@NotNull
+//	private PaymentGateway paymentGateway;
 	
 	@NotNull
 	private BigDecimal shippingFee;
