@@ -13,6 +13,7 @@ import org.mapstruct.Mapping;
 public interface TradingProductAdminVMMapper extends EntityMapper<TradingProductAdminVM, TradingProduct> {
 	
 	@Mapping(source = "product.id", target = "productId")
+	@Mapping(source = "product.description", target = "description")
 	TradingProductAdminVM toDto(TradingProduct tradingProduct);
 	
 }

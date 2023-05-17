@@ -1,31 +1,40 @@
 package com.shop.bike.consumer.service.impl;
 
+import com.shop.bike.admin.dto.MyOrderFilterDTO;
 import com.shop.bike.constant.ApplicationConstant;
 import com.shop.bike.consumer.dto.CreateOrderDTO;
 import com.shop.bike.consumer.repository.MyOrderConsumerRepository;
 import com.shop.bike.consumer.service.AddressConsumerService;
+import com.shop.bike.consumer.service.CouponDiscountConsumerService;
 import com.shop.bike.consumer.service.MyOrderConsumerService;
+import com.shop.bike.consumer.service.UserConsumerService;
+import com.shop.bike.consumer.vm.CouponDiscountConsumerVM;
 import com.shop.bike.consumer.vm.MyOrderConsumerVM;
 import com.shop.bike.consumer.vm.mapper.MyOrderConsumerVMMapper;
 import com.shop.bike.entity.Address;
+import com.shop.bike.entity.CouponDiscount;
 import com.shop.bike.entity.MyOrder;
 import com.shop.bike.entity.enumeration.ErrorEnum;
 import com.shop.bike.entity.enumeration.OrderStatus;
 import com.shop.bike.entity.enumeration.PaymentGateway;
+import com.shop.bike.entity.enumeration.PaymentStatus;
 import com.shop.bike.repository.AddressRepository;
 import com.shop.bike.security.SecurityUtils;
-import com.shop.bike.service.CouponDiscountService;
 import com.shop.bike.service.impl.MyOrderServiceImpl;
 import com.shop.bike.utils.JsonConverter;
-import com.shop.bike.vm.CouponDiscountVM;
 import com.shop.bike.web.rest.errors.BadRequestAlertException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.math.BigDecimal;
+import java.util.List;
+import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 @Transactional
@@ -48,7 +57,12 @@ public class MyOrderServiceConsumerImpl extends MyOrderServiceImpl implements My
 	private AddressConsumerService addressConsumerService;
 	
 	@Autowired
-	private CouponDiscountService couponDiscountService;
+	@Qualifier(ApplicationConstant.CONSUMER)
+	private CouponDiscountConsumerService couponDiscountService;
+	
+	@Autowired
+	@Qualifier(ApplicationConstant.CONSUMER)
+	private UserConsumerService userConsumerService;
 	
 	/*************************************************************
 	 *
@@ -74,12 +88,7 @@ public class MyOrderServiceConsumerImpl extends MyOrderServiceImpl implements My
 		
 		//process coupon
 		if(dto.getCouponCode() != null){
-			CouponDiscountVM coupon = couponDiscountService.getOneByCode(dto.getCouponCode())
-					.orElseThrow(() -> new BadRequestAlertException(ErrorEnum.COUPON_NOT_FOUND));
-			newOrder.setCouponDiscountId(coupon.getId());
-			newOrder.setCouponDiscountCache(JsonConverter.toJson(coupon));
-			newOrder.setCouponDiscount(getCashDiscount(newOrder.getTotal(), coupon.getDiscount(), coupon.getType()));
-			newOrder.setDiscount(newOrder.getCouponDiscount());
+			processCoupon(dto.getCouponCode(), newOrder);
 		}
 		//Set total
 		BigDecimal total = newOrder.getSubTotal()
@@ -92,7 +101,18 @@ public class MyOrderServiceConsumerImpl extends MyOrderServiceImpl implements My
 		newOrder.setAddress(shippingAddress);
 		newOrder.setShippingAddressCache(JsonConverter.toJson(shippingAddress));
 		
-		return myOrderConsumerVMMapper.toDto(myOrderConsumerRepository.save(newOrder));
+		MyOrderConsumerVM orderVM = myOrderConsumerVMMapper.toDto(myOrderConsumerRepository.save(newOrder));
+		orderVM.setBuyerName(userConsumerService.getCurrentProfileConsumer().getName());
+		return orderVM;
+	}
+	
+	private void processCoupon(String couponCode, MyOrder newOrder) {
+		CouponDiscountConsumerVM coupon = couponDiscountService.getOneByCode(couponCode)
+				.orElseThrow(() -> new BadRequestAlertException(ErrorEnum.COUPON_NOT_FOUND));
+		newOrder.setCouponDiscountId(coupon.getId());
+		newOrder.setCouponDiscountCache(JsonConverter.toJson(coupon));
+		newOrder.setCouponDiscount(getCashDiscount(newOrder.getTotal(), coupon.getDiscount(), coupon.getType()));
+		newOrder.setDiscount(newOrder.getCouponDiscount());
 	}
 	
 	@Override
@@ -125,7 +145,28 @@ public class MyOrderServiceConsumerImpl extends MyOrderServiceImpl implements My
 				})
 				.orElseThrow(() -> new BadRequestAlertException(ErrorEnum.ORDER_NOT_FOUND));
 		myOrder.setPaymentGateway(PaymentGateway.TRADE);
+		myOrder.setPaymentStatus(PaymentStatus.SUCCESSED);
 		myOrder.setStatus(OrderStatus.ACCEPTED);
 		myOrderConsumerRepository.save(myOrder);
 	}
+	
+	@Override
+	public Page<MyOrderConsumerVM> findAllOrders(MyOrderFilterDTO filters, Pageable pageable) {
+		Long buyerId = Long.valueOf(SecurityUtils.getCurrentUserLogin().get());
+		filters.setBuyerId(buyerId);
+		return myOrderConsumerRepository.findAll(filters, pageable).map(myOrderConsumerVMMapper::toDto);
+	}
+	
+	@Override
+	public Optional<MyOrderConsumerVM> findById(Long id) {
+		return myOrderConsumerRepository.findById(id).map(myOrderConsumerVMMapper::toDto);
+	}
+	
+	@Override
+	public List<MyOrder> findAllOrderConsumer() {
+		Long buyerId = Long.valueOf(SecurityUtils.getCurrentUserLogin().get());
+		return myOrderConsumerRepository.findAllByBuyerId(buyerId);
+	}
+	
+	
 }

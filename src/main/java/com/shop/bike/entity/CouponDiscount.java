@@ -1,7 +1,6 @@
 package com.shop.bike.entity;
 
 
-import com.shop.bike.entity.enumeration.ActionStatus;
 import com.shop.bike.entity.enumeration.CouponStatus;
 import com.shop.bike.entity.enumeration.DiscountType;
 
@@ -36,6 +35,9 @@ public class CouponDiscount implements Serializable {
 
     @Column(name = "quantity_limit")
     private Integer quantityLimit;
+	
+	@Column(name = "quantity_used")
+	private Integer quantityUsed;
 
     @NotNull
     @Column(name = "discount", precision = 21, scale = 2, nullable = false)
@@ -185,6 +187,14 @@ public class CouponDiscount implements Serializable {
 	
 	public void setName(String name) {
 		this.name = name;
+	}
+	
+	public Integer getQuantityUsed() {
+		return quantityUsed;
+	}
+	
+	public void setQuantityUsed(Integer quantityUsed) {
+		this.quantityUsed = quantityUsed;
 	}
 	
 	// jhipster-needle-entity-add-getters-setters - JHipster will add getters and setters here

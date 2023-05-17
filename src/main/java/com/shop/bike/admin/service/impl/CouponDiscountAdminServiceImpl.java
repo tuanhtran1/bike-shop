@@ -10,7 +10,6 @@ import com.shop.bike.entity.CouponDiscount;
 import com.shop.bike.entity.enumeration.CouponStatus;
 import com.shop.bike.entity.enumeration.ErrorEnum;
 import com.shop.bike.security.SecurityUtils;
-import com.shop.bike.service.CouponDiscountService;
 import com.shop.bike.service.impl.CouponDiscountServiceImpl;
 import com.shop.bike.vm.CouponDiscountVM;
 import com.shop.bike.vm.mapper.CouponDiscountVMMapper;
@@ -18,7 +17,6 @@ import com.shop.bike.web.rest.errors.BadRequestAlertException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
-import org.springframework.context.annotation.Primary;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
@@ -101,6 +99,8 @@ public class CouponDiscountAdminServiceImpl extends CouponDiscountServiceImpl im
 			
 			log.debug("Set code coupon");
 			saveCodeCoupon(couponDiscountAdminDTO, coupon);
+			
+			coupon.setQuantityUsed(0);
 		}
 		else { //case update
 			coupon = couponDiscountAdminRepository.findByIdAndStatusNot(couponDiscountAdminDTO.getId(), CouponStatus.DELETED)

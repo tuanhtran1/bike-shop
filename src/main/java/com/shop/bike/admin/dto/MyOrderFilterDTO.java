@@ -14,7 +14,7 @@ public class MyOrderFilterDTO {
 	
 	private String keyword;
 	
-	private String buyerId;
+	private Long buyerId;
 	
 	private BigDecimal totalFrom;
 	

@@ -36,7 +36,15 @@ public enum ErrorEnum {
 	DISTRICT_NOT_FOUND("District","NotFound" ,"District is not found"),
 	PROVINCE_NOT_FOUND("Province","NotFound" ,"Province is not found"),
 	WARDS_NOT_FOUND("Wards","NotFound" ,"Wards is not found"),
-	COUNTRY_NOT_FOUND("Country","NotFound" ,"Country is not found");
+	COUNTRY_NOT_FOUND("Country","NotFound" ,"Country is not found"),
+	COUPON_IS_DEACTIVATED("Coupon", "IsDeactivated", "Coupon is deactivated"),
+	COUPON_IS_NOT_AVAILABLE("Coupon", "IsNotAvailable", "Coupon is not available"),
+	INVALID_COUPON("Coupon", "Invalid", "Invalid coupon"),
+	COUPON_IS_USED_UP("Coupon", "IsUsedUp", "Coupon is used up"),
+	
+	USERNAME_IS_EXISTED("Username", "Existed", "Username is existed"),
+	ACCOUNT_NOT_FOUND("Account", "AccountNotFound", "The Account is not found"),
+	USER_NOT_ACTIVATED_BY_KEY("User","NotActivatedByKey" ,"User is not activated by key" );
 	
 	//add more...
 	private final String entityName;

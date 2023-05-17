@@ -1,13 +1,16 @@
 package com.shop.bike.admin.service;
 
 import com.shop.bike.admin.dto.MyOrderFilterDTO;
+import com.shop.bike.admin.pojo.PaymentOrderStatistic;
 import com.shop.bike.admin.pojo.StatisticOrder;
 import com.shop.bike.admin.vm.MyOrderAdminVM;
+import com.shop.bike.entity.view.ViewRevenueConsumer;
 import com.shop.bike.service.MyOrderService;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
 import java.time.Instant;
+import java.util.List;
 
 public interface MyOrderAdminService extends MyOrderService {
 	
@@ -34,4 +37,8 @@ public interface MyOrderAdminService extends MyOrderService {
 	void reject(Long id, String note);
 	
 	StatisticOrder statistic(Instant fromDate, Instant toDate);
+	
+	Page<ViewRevenueConsumer> getRevenueConsumer(Instant fromDate, Instant toDate, Pageable pageable);
+	
+	PaymentOrderStatistic paymentStatistic(Instant fromDate, Instant toDate);
 }
