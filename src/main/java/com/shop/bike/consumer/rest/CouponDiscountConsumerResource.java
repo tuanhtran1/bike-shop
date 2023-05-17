@@ -4,7 +4,6 @@ import com.shop.bike.constant.ApplicationConstant;
 import com.shop.bike.consumer.service.CouponDiscountConsumerService;
 import com.shop.bike.consumer.vm.CouponDiscountConsumerVM;
 import com.shop.bike.utils.PaginationUtil;
-import com.shop.bike.vm.CouponDiscountVM;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -52,9 +51,9 @@ public class CouponDiscountConsumerResource {
 	}
 	
 	@GetMapping("/coupon")
-	public ResponseEntity<CouponDiscountVM> getDetailCouponCode(@RequestParam String code) {
+	public ResponseEntity<CouponDiscountConsumerVM> getDetailCouponCode(@RequestParam String code) {
 		log.debug("REST request to get detail coupon {}", code);
-		Optional<CouponDiscountVM> couponDiscountVM = couponDiscountConsumerService.getOneByCode(code);
+		Optional<CouponDiscountConsumerVM> couponDiscountVM = couponDiscountConsumerService.getOneByCode(code);
 		return couponDiscountVM.map(response -> ResponseEntity.ok().body(response))
 				.orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND));
 	}

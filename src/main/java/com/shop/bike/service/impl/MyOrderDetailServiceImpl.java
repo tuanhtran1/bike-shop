@@ -89,6 +89,7 @@ public class MyOrderDetailServiceImpl implements MyOrderDetailService {
 		orderDetail.setImages(JsonConverter.toJson(tradingProduct.getMedia()));
 		orderDetail.setTradingProductId(tradingProduct.getId());
 		orderDetail.setTradingProductCache(JsonConverter.toJson(tradingProduct));
+		orderDetail.setImages(tradingProduct.getProduct().getImages());
 		productService.increaseAmountOrder(tradingProduct.getProduct(), 1);
 		if(tradingProduct.getStockQuantity() >= orderDetail.getQuantity()){
 			tradingProduct.setStockQuantity(tradingProduct.getStockQuantity() - orderDetail.getQuantity());

@@ -8,6 +8,8 @@ public interface StatisticOrder {
 	
 	Long getTotalAccepted();
 	
+	Long getTotalShipping();
+	
 	Long getTotalCanceled();
 	
 	Long getTotalRejected();

@@ -1,10 +1,12 @@
 package com.shop.bike.admin.rest;
 
 import com.shop.bike.admin.dto.MyOrderFilterDTO;
+import com.shop.bike.admin.pojo.PaymentOrderStatistic;
 import com.shop.bike.admin.pojo.StatisticOrder;
 import com.shop.bike.admin.service.MyOrderAdminService;
 import com.shop.bike.admin.vm.MyOrderAdminVM;
 import com.shop.bike.constant.ApplicationConstant;
+import com.shop.bike.entity.view.ViewRevenueConsumer;
 import com.shop.bike.utils.PaginationUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -40,6 +42,13 @@ public class MyOrderAdminResource {
 		HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(ServletUriComponentsBuilder.fromCurrentRequest(), page);
 		return ResponseEntity.ok().headers(headers).body(page.getContent());
 	}
+	
+//	@GetMapping("/orders")
+//	public ResponseEntity<List<MyOrderAdminVM>> findAll() Pageable pageable) {
+//		Page<MyOrderAdminVM> page = myOrderAdminService.findAllByAdmin(filters, pageable);
+//		HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(ServletUriComponentsBuilder.fromCurrentRequest(), page);
+//		return ResponseEntity.ok().headers(headers).body(page.getContent());
+//	}
 	
 	@GetMapping("/my-orders/statistic")
 	public ResponseEntity<StatisticOrder> statistic(
@@ -82,5 +91,22 @@ public class MyOrderAdminResource {
 		return ResponseEntity.noContent().build();
 	}
 	
+	@GetMapping("/my-orders/revenue-consumer")
+	public ResponseEntity<List<ViewRevenueConsumer>> getRevenueConsumer(
+			@RequestParam(value = "fromDate",required = false) Instant fromDate,
+			@RequestParam(value = "toDate", required = false) Instant toDate,
+			Pageable pageable) {
+		Page<ViewRevenueConsumer> page = myOrderAdminService.getRevenueConsumer(fromDate, toDate, pageable);
+		HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(ServletUriComponentsBuilder.fromCurrentRequest(), page);
+		return ResponseEntity.ok().headers(headers).body(page.getContent());
+	}
 	
+	@GetMapping("/my-orders/payment/statistic")
+	public ResponseEntity<PaymentOrderStatistic> paymentStatistic(
+			@RequestParam(value = "fromDate",required = false) Instant fromDate,
+			@RequestParam(value = "toDate", required = false) Instant toDate
+	) {
+		PaymentOrderStatistic statistic = myOrderAdminService.paymentStatistic(fromDate, toDate);
+		return ResponseEntity.ok(statistic);
+	}
 }

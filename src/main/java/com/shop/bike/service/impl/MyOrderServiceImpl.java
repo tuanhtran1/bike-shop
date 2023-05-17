@@ -39,7 +39,6 @@ public class MyOrderServiceImpl implements MyOrderService {
 	@Autowired
 	private CouponDiscountRepository couponDiscountRepository;
 	
-	private static final BigDecimal shippingFee = BigDecimal.valueOf(50000.0);
 	
 	protected MyOrder initOrder(CreateOrderDTO myOrderDTO) {
 		
@@ -70,6 +69,8 @@ public class MyOrderServiceImpl implements MyOrderService {
 		newOrder.setShippingFee(myOrderDTO.getShippingFee()); //location
 		
 		newOrder.setTotal(BigDecimal.ZERO);
+		
+		newOrder.setDiscount(BigDecimal.ZERO);
 		
 		return newOrder;
 	}
@@ -113,6 +114,7 @@ public class MyOrderServiceImpl implements MyOrderService {
 			case DONE:
 				if(existingOrder.getPaymentGateway().equals(PaymentGateway.CASH)){
 					orderAuditingDTO.setPaymentDate(now);
+					existingOrder.setPaymentStatus(PaymentStatus.SUCCESSED);
 				}
 				orderAuditingDTO.setDoneDate(now);
 				break;

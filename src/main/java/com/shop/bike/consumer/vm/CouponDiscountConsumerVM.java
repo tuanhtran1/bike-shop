@@ -15,6 +15,8 @@ public class CouponDiscountConsumerVM {
 	private String couponCode;
 	
 	private Integer quantityLimit;
+	
+	private Integer quantityLimitForUser;
 
 	private BigDecimal discount;
 	
