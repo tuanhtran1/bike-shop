@@ -111,7 +111,13 @@ public class MyOrderServiceConsumerImpl extends MyOrderServiceImpl implements My
 				.orElseThrow(() -> new BadRequestAlertException(ErrorEnum.COUPON_NOT_FOUND));
 		newOrder.setCouponDiscountId(coupon.getId());
 		newOrder.setCouponDiscountCache(JsonConverter.toJson(coupon));
-		newOrder.setCouponDiscount(getCashDiscount(newOrder.getTotal(), coupon.getDiscount(), coupon.getType()));
+		BigDecimal cashDiscount = getCashDiscount(newOrder.getSubTotal(), coupon.getDiscount(), coupon.getType());
+		if(coupon.getMaxDiscount() != null){
+			BigDecimal maxDiscount = coupon.getMaxDiscount();
+			newOrder.setCouponDiscount(cashDiscount.compareTo(maxDiscount) > 0 ? maxDiscount : cashDiscount);
+		}
+		else newOrder.setCouponDiscount(cashDiscount);
+		
 		newOrder.setDiscount(newOrder.getCouponDiscount());
 	}
 	

@@ -14,6 +14,7 @@ import org.apache.commons.lang3.StringUtils;
 
 import java.math.BigDecimal;
 import java.time.Instant;
+import java.util.List;
 import java.util.Set;
 
 @Getter
@@ -72,12 +73,12 @@ public class MyOrderConsumerVM {
 	@JsonProperty("shippingAddress")
 	private ShippingAddressVM address;
     
-    private Set<MyOrderDetailsConsumerVM> orderDetails;
+    private List<MyOrderDetailsConsumerVM> orderDetails;
 	
 	
     @JsonProperty("couponDiscountCache")
-	public CouponDiscountVM getCouponDiscountCacheObject() {
-		return JsonConverter.toObject(this.couponDiscountCache, CouponDiscountVM.class);
+	public CouponDiscountConsumerVM getCouponDiscountCacheObject() {
+		return JsonConverter.toObject(this.couponDiscountCache, CouponDiscountConsumerVM.class);
 	}
 	
     
