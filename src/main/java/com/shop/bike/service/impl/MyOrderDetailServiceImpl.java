@@ -10,7 +10,9 @@ import com.shop.bike.repository.TradingProductRepository;
 import com.shop.bike.service.MyOrderDetailService;
 import com.shop.bike.service.MyOrderService;
 import com.shop.bike.service.ProductService;
+import com.shop.bike.service.TradingProductService;
 import com.shop.bike.utils.JsonConverter;
+import com.shop.bike.vm.TradingProductBaseVM;
 import com.shop.bike.web.rest.errors.BadRequestAlertException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Primary;
@@ -30,8 +32,11 @@ public class MyOrderDetailServiceImpl implements MyOrderDetailService {
 	@Autowired
 	private MyOrderDetailRepository myOrderDetailRepository;
 	
+//	@Autowired
+//	private TradingProductRepository tradingProductRepository;
+//
 	@Autowired
-	private TradingProductRepository tradingProductRepository;
+	private TradingProductService tradingProductService;
 	
 	@Autowired
 	private ProductService productService;
@@ -43,8 +48,8 @@ public class MyOrderDetailServiceImpl implements MyOrderDetailService {
 		Set<MyOrderDetails> myOrderDetails = new HashSet<MyOrderDetails>();
 		
 		for (CreateOrderDetailDTO orderDetailDTO : orderDetailsDTO) {
-			TradingProduct tradingProduct = tradingProductRepository.findById(orderDetailDTO.getTradingProductId())
-					.orElseThrow(() -> new BadRequestAlertException(ErrorEnum.TRADING_PRODUCT_NOT_FOUND));
+			
+			TradingProductBaseVM tradingProduct = tradingProductService.findOneById(orderDetailDTO.getTradingProductId());
 			
 			//Initialize an orderDetail
 			MyOrderDetails orderDetail = new MyOrderDetails();
@@ -83,19 +88,13 @@ public class MyOrderDetailServiceImpl implements MyOrderDetailService {
 		return myOrderDetails;
 	}
 	
-	public void processOrderDetail(MyOrderDetails orderDetail, TradingProduct tradingProduct) {
-		orderDetail.setProductId(tradingProduct.getProduct().getId());
+	public void processOrderDetail(MyOrderDetails orderDetail, TradingProductBaseVM tradingProduct) {
+		orderDetail.setProductId(tradingProduct.getProductId());
 		orderDetail.setProductName(tradingProduct.getName());
-		orderDetail.setImages(JsonConverter.toJson(tradingProduct.getMedia()));
 		orderDetail.setTradingProductId(tradingProduct.getId());
 		orderDetail.setTradingProductCache(JsonConverter.toJson(tradingProduct));
-		orderDetail.setImages(tradingProduct.getProduct().getImages());
-		productService.increaseAmountOrder(tradingProduct.getProduct(), 1);
-		if(tradingProduct.getStockQuantity() >= orderDetail.getQuantity()){
-			tradingProduct.setStockQuantity(tradingProduct.getStockQuantity() - orderDetail.getQuantity());
-			tradingProductRepository.save(tradingProduct);
-		}
-		else throw new BadRequestAlertException(ErrorEnum.STOCK_QUANTITY_NOT_ENOUGH);
-		
+		orderDetail.setImages(tradingProduct.getImages());
+		productService.increaseAmountOrder(tradingProduct.getProductId(), 1);
+		tradingProductService.saveStockQuantity(tradingProduct.getId(), orderDetail.getQuantity());
 	}
 }

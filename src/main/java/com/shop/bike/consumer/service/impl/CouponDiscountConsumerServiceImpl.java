@@ -11,6 +11,7 @@ import com.shop.bike.entity.CouponDiscount;
 import com.shop.bike.entity.MyOrder;
 import com.shop.bike.entity.enumeration.CouponStatus;
 import com.shop.bike.entity.enumeration.ErrorEnum;
+import com.shop.bike.entity.enumeration.OrderStatus;
 import com.shop.bike.security.SecurityUtils;
 import com.shop.bike.service.impl.CouponDiscountServiceImpl;
 import com.shop.bike.web.rest.errors.BadRequestAlertException;
@@ -118,7 +119,9 @@ public class CouponDiscountConsumerServiceImpl extends CouponDiscountServiceImpl
 		Long buyerId = Long.valueOf(SecurityUtils.getCurrentUserLogin().get());
 		if(couponDiscount.getQuantityLimitForUser() != null){
 			List<MyOrder> ordersHaveApplyCoupon = myOrderConsumerRepository.findAllByBuyerId(buyerId).stream()
-					.filter(c -> c.getCouponDiscountId() != null && c.getCouponDiscountId().equals(couponDiscount.getId()))
+					.filter(c -> c.getCouponDiscountId() != null
+							&& c.getCouponDiscountId().equals(couponDiscount.getId())
+							&& c.getStatus() != OrderStatus.DELETED)
 					.collect(Collectors.toList());
 			if(!ordersHaveApplyCoupon.isEmpty()){
 				return ordersHaveApplyCoupon.size() >= couponDiscount.getQuantityLimitForUser();
