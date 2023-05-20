@@ -165,7 +165,12 @@ public class MyOrderServiceConsumerImpl extends MyOrderServiceImpl implements My
 	
 	@Override
 	public Optional<MyOrderConsumerVM> findById(Long id) {
-		return myOrderConsumerRepository.findById(id).map(myOrderConsumerVMMapper::toDto);
+		return myOrderConsumerRepository.findById(id).map(o ->{
+			MyOrderConsumerVM vm = myOrderConsumerVMMapper.toDto(o);
+			vm.setBuyerName(userConsumerService.getCurrentProfileConsumer().getName());
+			vm.setPhone(userConsumerService.getCurrentProfileConsumer().getPhone());
+			return vm;
+		});
 	}
 	
 	@Override

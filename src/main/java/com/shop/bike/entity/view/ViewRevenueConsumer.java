@@ -32,6 +32,6 @@ public class ViewRevenueConsumer {
 	
 	private BigDecimal revenue;
 	
-	private Instant createdDate;
+//	private Instant createdDate;
 	
 }

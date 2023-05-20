@@ -38,7 +38,7 @@ public interface MyOrderAdminService extends MyOrderService {
 	
 	StatisticOrder statistic(Instant fromDate, Instant toDate);
 	
-	Page<ViewRevenueConsumer> getRevenueConsumer(Instant fromDate, Instant toDate, Pageable pageable);
+	Page<ViewRevenueConsumer> getRevenueConsumer(Pageable pageable);
 	
 	PaymentOrderStatistic paymentStatistic(Instant fromDate, Instant toDate);
 }

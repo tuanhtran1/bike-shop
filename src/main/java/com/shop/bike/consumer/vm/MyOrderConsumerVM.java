@@ -53,6 +53,8 @@ public class MyOrderConsumerVM {
     private String buyerId;
 
     private String buyerName;
+	
+	private String phone;
 
     private BigDecimal couponDiscount;
 
