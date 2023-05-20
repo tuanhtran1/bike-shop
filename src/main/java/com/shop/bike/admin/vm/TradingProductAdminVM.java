@@ -10,6 +10,7 @@ import lombok.Data;
 import java.math.BigDecimal;
 import java.time.Instant;
 import java.util.List;
+import java.util.Set;
 
 @Data
 public class TradingProductAdminVM {
@@ -49,6 +50,8 @@ public class TradingProductAdminVM {
 	private Instant createdDate;
 	
 	private Instant lastModifiedDate;
+	
+	private Set<WareHouseVM> wareHouses;
 	
 	public void setImages(String images) {
 		this.images = images;
