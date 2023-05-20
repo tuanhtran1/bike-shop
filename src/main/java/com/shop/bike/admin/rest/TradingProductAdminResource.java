@@ -3,6 +3,7 @@ package com.shop.bike.admin.rest;
 
 import com.shop.bike.admin.dto.TradingProductAdminDTO;
 import com.shop.bike.admin.dto.TradingProductFilterDTO;
+import com.shop.bike.admin.dto.WareHouseDTO;
 import com.shop.bike.admin.service.TradingProductAdminService;
 import com.shop.bike.admin.vm.ProductAdminVM;
 import com.shop.bike.admin.vm.TradingProductAdminVM;
@@ -74,4 +75,10 @@ public class TradingProductAdminResource {
 //		tradingProductVendorService.cancel(id);
 //		return ResponseEntity.noContent().build();
 //	}
+	
+	@PostMapping("/ware-house")
+	public ResponseEntity<Void> createWareHouse(@Valid @RequestBody WareHouseDTO dto) {
+		tradingProductAdminService.createWareHouse(dto);
+		return ResponseEntity.noContent().build();
+	}
 }

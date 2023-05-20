@@ -3,21 +3,27 @@ package com.shop.bike.admin.service.impl;
 import com.shop.bike.admin.dto.ProductAttributeDTO;
 import com.shop.bike.admin.dto.TradingProductAdminDTO;
 import com.shop.bike.admin.dto.TradingProductFilterDTO;
+import com.shop.bike.admin.dto.WareHouseDTO;
 import com.shop.bike.admin.dto.mapper.TradingProductAdminMapper;
 import com.shop.bike.admin.repository.ProductAdminRepository;
 import com.shop.bike.admin.repository.TradingProductAdminRepository;
 import com.shop.bike.admin.service.ProductAdminService;
 import com.shop.bike.admin.service.TradingProductAdminService;
 import com.shop.bike.admin.vm.TradingProductAdminVM;
+import com.shop.bike.admin.vm.WareHouseVM;
 import com.shop.bike.admin.vm.mapper.TradingProductAdminVMMapper;
+import com.shop.bike.admin.vm.mapper.WareHouseVMMapper;
 import com.shop.bike.constant.ApplicationConstant;
 import com.shop.bike.entity.Product;
 import com.shop.bike.entity.ProductAttribute;
 import com.shop.bike.entity.TradingProduct;
+import com.shop.bike.entity.WareHouse;
 import com.shop.bike.entity.enumeration.ActionStatus;
 import com.shop.bike.entity.enumeration.ApproveStatus;
 import com.shop.bike.entity.enumeration.ErrorEnum;
+import com.shop.bike.entity.enumeration.WareHouseStatus;
 import com.shop.bike.repository.ProductAttributeRepository;
+import com.shop.bike.repository.WareHouseRepository;
 import com.shop.bike.service.impl.TradingProductServiceImpl;
 import com.shop.bike.utils.GenerateIDUtil;
 import com.shop.bike.web.rest.errors.BadRequestAlertException;
@@ -59,6 +65,12 @@ public class TradingProductAdminServiceImpl extends TradingProductServiceImpl im
 	@Autowired
 	private ProductAttributeRepository productAttributeRepository;
 	
+	@Autowired
+	private WareHouseRepository wareHouseRepository;
+	
+	
+	@Autowired
+	private WareHouseVMMapper wareHouseVMMapper;
 	
 	/*************************************************************
 	 *
@@ -72,7 +84,14 @@ public class TradingProductAdminServiceImpl extends TradingProductServiceImpl im
 	 **************************************************************/
 	@Override
 	public Page<TradingProductAdminVM> findAllByAdmin(TradingProductFilterDTO filters, Pageable pageable) {
-		return tradingProductAdminRepository.findAll(filters, pageable).map(tradingProductAdminVMMapper::toDto);
+		return tradingProductAdminRepository.findAll(filters, pageable).map(t ->{
+			TradingProductAdminVM vm = tradingProductAdminVMMapper.toDto(t);
+			//check warehoue
+			Set<WareHouseVM> wareHoues = wareHouseRepository.findAllByTradingProductId(t.getId())
+					.stream().map(wareHouseVMMapper::toDto).collect(Collectors.toSet());
+			vm.setWareHouses(wareHoues);
+			return vm;
+		});
 	}
 	
 	/*************************************************************
@@ -92,7 +111,14 @@ public class TradingProductAdminServiceImpl extends TradingProductServiceImpl im
 			throw new BadRequestAlertException(ErrorEnum.PRODUCT_NOT_FOUND);
 		}
 		log.debug("Request to get a Product : {}", tradingProductOpt.get());
-		return tradingProductOpt.map(tradingProductAdminVMMapper::toDto);
+		return tradingProductOpt.map(t ->{
+			TradingProductAdminVM vm = tradingProductAdminVMMapper.toDto(t);
+			//check warehoue
+			Set<WareHouseVM> wareHoues = wareHouseRepository.findAllByTradingProductId(t.getId())
+					.stream().map(wareHouseVMMapper::toDto).collect(Collectors.toSet());
+			vm.setWareHouses(wareHoues);
+			return vm;
+		});
 	}
 	
 	/*************************************************************
@@ -165,6 +191,8 @@ public class TradingProductAdminServiceImpl extends TradingProductServiceImpl im
 		tradingProductAdminRepository.save(tradingProduct);
 	}
 	
+
+	
 	private void checkAttributeTradingProduct(TradingProductAdminDTO dto) {
 		List<TradingProduct> tradingProducts = tradingProductAdminRepository.findAllByProductId(dto.getProductId());
 		List<ProductAttributeDTO> attributesDTO = dto.getAttributes().stream().collect(Collectors.toList());
@@ -218,5 +246,16 @@ public class TradingProductAdminServiceImpl extends TradingProductServiceImpl im
 			return true;
 		}
 		return false;
+	}
+	
+	@Override
+	public void createWareHouse(WareHouseDTO dto) {
+		WareHouse wareHouse = new WareHouse();
+		wareHouse.setTradingProductId(dto.getTradingProductId());
+		wareHouse.setQuantity(dto.getQuantity());
+		wareHouse.setOriginPrice(dto.getOriginPrice());
+		wareHouse.setStatus(WareHouseStatus.IMPORT);
+		wareHouse.setDate(dto.getDate());
+		wareHouseRepository.save(wareHouse);
 	}
 }

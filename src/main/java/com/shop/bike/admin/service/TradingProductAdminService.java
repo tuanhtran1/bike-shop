@@ -2,6 +2,7 @@ package com.shop.bike.admin.service;
 
 import com.shop.bike.admin.dto.TradingProductAdminDTO;
 import com.shop.bike.admin.dto.TradingProductFilterDTO;
+import com.shop.bike.admin.dto.WareHouseDTO;
 import com.shop.bike.admin.vm.TradingProductAdminVM;
 import com.shop.bike.service.TradingProductService;
 import org.springframework.data.domain.Page;
@@ -70,4 +71,6 @@ public interface TradingProductAdminService extends TradingProductService {
 	 * @author: tuanhtran1 (tu.tran@ecaraid.com)
 	**************************************************************/
 	void deleteTradingProductByAdmin(Long id);
+	
+	void createWareHouse(WareHouseDTO dto);
 }
