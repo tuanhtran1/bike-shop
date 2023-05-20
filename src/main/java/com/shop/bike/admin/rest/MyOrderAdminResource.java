@@ -93,10 +93,10 @@ public class MyOrderAdminResource {
 	
 	@GetMapping("/my-orders/revenue-consumer")
 	public ResponseEntity<List<ViewRevenueConsumer>> getRevenueConsumer(
-			@RequestParam(value = "fromDate",required = false) Instant fromDate,
-			@RequestParam(value = "toDate", required = false) Instant toDate,
+//			@RequestParam(value = "fromDate",required = false) Instant fromDate,
+//			@RequestParam(value = "toDate", required = false) Instant toDate,
 			Pageable pageable) {
-		Page<ViewRevenueConsumer> page = myOrderAdminService.getRevenueConsumer(fromDate, toDate, pageable);
+		Page<ViewRevenueConsumer> page = myOrderAdminService.getRevenueConsumer(pageable);
 		HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(ServletUriComponentsBuilder.fromCurrentRequest(), page);
 		return ResponseEntity.ok().headers(headers).body(page.getContent());
 	}

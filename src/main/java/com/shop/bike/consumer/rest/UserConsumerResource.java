@@ -6,6 +6,7 @@ import com.shop.bike.admin.vm.ProfileAdminVM;
 import com.shop.bike.config.Constants;
 import com.shop.bike.constant.ApplicationConstant;
 import com.shop.bike.consumer.dto.OtpPayload;
+import com.shop.bike.consumer.dto.ProfileConsumerDTO;
 import com.shop.bike.consumer.dto.RegisterConsumerDTO;
 import com.shop.bike.consumer.service.UserConsumerService;
 import com.shop.bike.consumer.vm.ProfileConsumerVM;
@@ -112,6 +113,13 @@ public class UserConsumerResource {
 	public ResponseEntity<ProfileConsumerVM> getProfileConsumer() {
 		log.debug("REST request to get profile of Consumers");
 		return ResponseEntity.ok().body(userConsumerService.getCurrentProfileConsumer());
+	}
+	
+	@PutMapping("/profiles")
+	public ResponseEntity<ProfileConsumerVM> updateProfile(@Valid @RequestBody ProfileConsumerDTO dto){
+		log.debug("REST request to register profile consumer");
+		ProfileConsumerVM profileConsumerVM = userConsumerService.updateProfile(dto);
+		return ResponseEntity.ok().body(profileConsumerVM);
 	}
 	
 	/**

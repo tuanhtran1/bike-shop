@@ -2,6 +2,7 @@ package com.shop.bike.admin.vm;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.shop.bike.consumer.vm.ShippingAddressVM;
 import com.shop.bike.entity.enumeration.DeliveryStatus;
 import com.shop.bike.entity.enumeration.OrderStatus;
 import com.shop.bike.entity.enumeration.PaymentGateway;
@@ -56,9 +57,9 @@ public class MyOrderAdminVM {
 
     @JsonIgnore
     private String couponDiscountCache;
-
-//    @JsonIgnore
-//    private String shippingCache;
+	
+	@JsonProperty("shippingAddress")
+	private ShippingAddressVM address;
 
     private String note;
 

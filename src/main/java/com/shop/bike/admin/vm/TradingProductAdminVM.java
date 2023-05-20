@@ -20,11 +20,19 @@ public class TradingProductAdminVM {
 	
 	private String description;
 	
+	@JsonIgnore
+	private String images;
+	
+	@JsonProperty("images")
+	private Object imageObject;
+	
 	private String name;
 	
 	private BigDecimal price;
 	
 	private BigDecimal originalPrice;
+	
+	private BigDecimal salePrice;
 	
 	private Integer stockQuantity;
 	
@@ -41,4 +49,9 @@ public class TradingProductAdminVM {
 	private Instant createdDate;
 	
 	private Instant lastModifiedDate;
+	
+	public void setImages(String images) {
+		this.images = images;
+		this.imageObject = JsonConverter.toObjectArray(images);
+	}
 }

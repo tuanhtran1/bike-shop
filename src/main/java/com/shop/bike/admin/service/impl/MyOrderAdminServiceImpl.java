@@ -101,8 +101,8 @@ public class MyOrderAdminServiceImpl extends MyOrderServiceImpl implements MyOrd
 	
 	@Override
 	@Transactional(readOnly = true)
-	public Page<ViewRevenueConsumer> getRevenueConsumer(Instant fromDate, Instant toDate, Pageable pageable) {
-		return viewRevenueConsumerRepository.getViewRevenueConsumer(fromDate, toDate, pageable);
+	public Page<ViewRevenueConsumer> getRevenueConsumer(Pageable pageable) {
+		return viewRevenueConsumerRepository.getViewRevenueConsumer(pageable);
 	}
 	
 	@Override

@@ -17,10 +17,11 @@ import java.util.List;
 public interface ViewRevenueConsumerRepository extends JpaRepository<ViewRevenueConsumer, Long> {
 	
 	@Query(value = "select v from ViewRevenueConsumer v where 1 = 1 "
-			+ "and (:fromDate is null or v.createdDate>=:fromDate) "
-			+ "and (:toDate is null or v.createdDate<=:toDate) "
+//			+ "and (:fromDate is null or v.createdDate>=:fromDate) "
+//			+ "and (:toDate is null or v.createdDate<=:toDate) "
 			+ "")
-	Page<ViewRevenueConsumer> getViewRevenueConsumer(@Param("fromDate") Instant fromDate,
-													 @Param("toDate") Instant toDate,
+	Page<ViewRevenueConsumer> getViewRevenueConsumer(
+//			 										 @Param("fromDate") Instant fromDate,
+//													 @Param("toDate") Instant toDate,
 													 Pageable pageable);
 }

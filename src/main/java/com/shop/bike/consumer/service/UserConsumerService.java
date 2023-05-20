@@ -1,11 +1,13 @@
 package com.shop.bike.consumer.service;
 
 import com.shop.bike.admin.vm.ProfileAdminVM;
+import com.shop.bike.consumer.dto.ProfileConsumerDTO;
 import com.shop.bike.consumer.dto.RegisterConsumerDTO;
 import com.shop.bike.consumer.vm.ProfileConsumerVM;
+import com.shop.bike.service.UserService;
 import org.springframework.http.ResponseEntity;
 
-public interface UserConsumerService {
+public interface UserConsumerService extends UserService {
 	
 	/*************************************************************
 	 *
@@ -22,4 +24,6 @@ public interface UserConsumerService {
 	void checkExist(String email);
 	
 	ProfileConsumerVM createProfileConsumer(RegisterConsumerDTO dto);
+	
+	ProfileConsumerVM updateProfile(ProfileConsumerDTO dto);
 }

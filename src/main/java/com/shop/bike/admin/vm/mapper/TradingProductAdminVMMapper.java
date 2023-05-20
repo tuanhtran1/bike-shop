@@ -14,6 +14,7 @@ public interface TradingProductAdminVMMapper extends EntityMapper<TradingProduct
 	
 	@Mapping(source = "product.id", target = "productId")
 	@Mapping(source = "product.description", target = "description")
+	@Mapping(source = "product.images", target = "images")
 	TradingProductAdminVM toDto(TradingProduct tradingProduct);
 	
 }

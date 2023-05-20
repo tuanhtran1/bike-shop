@@ -1,7 +1,9 @@
 package com.shop.bike.consumer.service.impl;
 
 import com.shop.bike.constant.ApplicationConstant;
+import com.shop.bike.consumer.dto.ProfileConsumerDTO;
 import com.shop.bike.consumer.dto.RegisterConsumerDTO;
+import com.shop.bike.consumer.dto.mapper.ProfileConsumerMapper;
 import com.shop.bike.consumer.repository.UserConsumerRepository;
 import com.shop.bike.consumer.service.UserConsumerService;
 import com.shop.bike.consumer.vm.ProfileConsumerVM;
@@ -44,6 +46,9 @@ public class UserConsumerServiceImpl extends UserServiceImpl implements UserCons
 	
 	@Autowired
 	private RoleRepository roleRepository;
+	
+	@Autowired
+	private ProfileConsumerMapper profileConsumerMapper;
 	
 	/*************************************************************
 	 *
@@ -89,6 +94,16 @@ public class UserConsumerServiceImpl extends UserServiceImpl implements UserCons
 			return profileConsumerVMMapper.toDto(userConsumerRepository.save(consumer));
 		}
 		else throw new BadRequestAlertException(ErrorEnum.USER_NOT_ACTIVATED_BY_KEY);
+	}
+	
+	@Override
+	public ProfileConsumerVM updateProfile(ProfileConsumerDTO dto) {
+		Long userId = Long.valueOf(SecurityUtils.getCurrentUserLogin()
+				.orElseThrow(() -> new BadRequestAlertException(ErrorEnum.USER_NOT_FOUND)));
+		User consumer = this.findConsumerById(userId).get();
+		profileConsumerMapper.partialUpdate(consumer, dto);
+		userConsumerRepository.save(consumer);
+		return profileConsumerVMMapper.toDto(consumer);
 	}
 	
 }
